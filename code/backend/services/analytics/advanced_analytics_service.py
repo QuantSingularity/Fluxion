@@ -686,9 +686,7 @@ class AdvancedAnalyticsService:
     ) -> float:
         """Calculate liquidity utilization rate"""
         total_liquidity_result = await db.execute(
-            select(func.sum(LiquidityPool.total_liquidity)).where(
-                LiquidityPool.active
-            )
+            select(func.sum(LiquidityPool.total_liquidity)).where(LiquidityPool.active)
         )
         total_liquidity = total_liquidity_result.scalar() or Decimal("0")
         volume_result = await db.execute(

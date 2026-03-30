@@ -253,11 +253,7 @@ class ComplianceService:
                     .filter(AMLCheck.risk_level == AMLRiskLevel.HIGH)
                     .label("high_risk_checks"),
                     func.count(AMLCheck.id)
-                    .filter(
-                        or_(
-                            AMLCheck.sanctions_match, AMLCheck.pep_match
-                        )
-                    )
+                    .filter(or_(AMLCheck.sanctions_match, AMLCheck.pep_match))
                     .label("matches_found"),
                 ).where(
                     and_(
