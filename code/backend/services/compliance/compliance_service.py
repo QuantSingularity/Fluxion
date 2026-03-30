@@ -255,7 +255,7 @@ class ComplianceService:
                     func.count(AMLCheck.id)
                     .filter(
                         or_(
-                            AMLCheck.sanctions_match == True, AMLCheck.pep_match == True
+                            AMLCheck.sanctions_match, AMLCheck.pep_match
                         )
                     )
                     .label("matches_found"),

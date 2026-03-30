@@ -260,7 +260,7 @@ class AdvancedAnalyticsService:
             volume_metrics = volume_result.first()
             liquidity_result = await db.execute(
                 select(func.sum(LiquidityPool.total_liquidity)).where(
-                    LiquidityPool.active == True
+                    LiquidityPool.active
                 )
             )
             total_liquidity = liquidity_result.scalar() or Decimal("0")
@@ -323,7 +323,7 @@ class AdvancedAnalyticsService:
             transactions_per_second = transactions_last_minute / 60.0
             tvl_result = await db.execute(
                 select(func.sum(LiquidityPool.total_liquidity)).where(
-                    LiquidityPool.active == True
+                    LiquidityPool.active
                 )
             )
             total_value_locked = tvl_result.scalar() or Decimal("0")
@@ -687,7 +687,7 @@ class AdvancedAnalyticsService:
         """Calculate liquidity utilization rate"""
         total_liquidity_result = await db.execute(
             select(func.sum(LiquidityPool.total_liquidity)).where(
-                LiquidityPool.active == True
+                LiquidityPool.active
             )
         )
         total_liquidity = total_liquidity_result.scalar() or Decimal("0")
