@@ -13,9 +13,13 @@ from typing import Any, Dict, List, Optional
 import hvac
 import requests
 from kubernetes import client, config
-from core.logging import get_logger
+import logging
 
-logger = get_logger(__name__)
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
+)
+logger = logging.getLogger(__name__)
 
 
 class DeploymentValidator:

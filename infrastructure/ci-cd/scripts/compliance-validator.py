@@ -11,9 +11,13 @@ from datetime import datetime
 from pathlib import Path
 from typing import Any, Dict, Optional
 import yaml
-from core.logging import get_logger
+import logging
 
-logger = get_logger(__name__)
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
+)
+logger = logging.getLogger(__name__)
 
 
 class ComplianceValidator:
