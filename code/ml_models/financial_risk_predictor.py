@@ -6,12 +6,13 @@ market volatility, and compliance violations in DeFi environments.
 
 import logging
 import warnings
+from typing import Any
+
 import joblib
 import matplotlib.pyplot as plt
 import numpy as np
 import torch
 import torch.nn as nn
-from typing import Any
 import torch.optim as optim
 from sklearn.ensemble import IsolationForest
 from sklearn.metrics import roc_auc_score

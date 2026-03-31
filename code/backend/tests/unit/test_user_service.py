@@ -3,10 +3,11 @@ Unit tests for User Service
 Tests user registration, authentication, profile management, and security features.
 """
 
+from typing import Any
 from unittest.mock import patch
+
 import pytest
 import pytest_asyncio
-from typing import Any
 from services.auth.jwt_service import DeviceInfo
 from services.user.user_service import UserService, UserStatus, UserType
 

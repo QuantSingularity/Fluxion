@@ -12,6 +12,7 @@ from dataclasses import dataclass
 from datetime import datetime, timedelta, timezone
 from enum import Enum
 from typing import Any, Dict, Optional, Tuple, Union
+
 import jwt
 from config.settings import settings
 from cryptography.fernet import Fernet

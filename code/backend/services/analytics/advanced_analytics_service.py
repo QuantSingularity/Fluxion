@@ -11,6 +11,7 @@ from decimal import Decimal
 from enum import Enum
 from typing import Any, Dict, List, Optional
 from uuid import UUID
+
 import numpy as np
 from models.blockchain import LiquidityPool
 from models.portfolio import Portfolio, PortfolioAsset

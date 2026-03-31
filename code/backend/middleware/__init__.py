@@ -2,9 +2,10 @@
 Middleware package for Fluxion backend
 """
 
+from middleware.rate_limit_middleware import RateLimitMiddleware
+
 # Import only the middleware that are fully implemented
 from middleware.security_middleware import SecurityMiddleware
-from middleware.rate_limit_middleware import RateLimitMiddleware
 
 __all__ = [
     "SecurityMiddleware",

@@ -3,14 +3,10 @@ Compliance models for Fluxion backend
 """
 
 import enum
-from models.base import (
-    AuditMixin,
-    BaseModel,
-    EncryptedMixin,
-    TimestampMixin,
-)
 from datetime import datetime
 from typing import Optional
+
+from models.base import AuditMixin, BaseModel, EncryptedMixin, TimestampMixin
 from sqlalchemy import (
     JSON,
     Boolean,

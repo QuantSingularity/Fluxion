@@ -10,6 +10,7 @@ from datetime import datetime, timedelta
 from enum import Enum
 from typing import Any, Dict, List, Optional, Tuple
 from uuid import UUID, uuid4
+
 from models.compliance import DocumentType, KYCRecord, KYCStatus
 from models.user import User
 from services.security.encryption_service import EncryptionService

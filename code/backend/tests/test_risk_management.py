@@ -5,10 +5,11 @@ Tests all risk assessment, monitoring, and mitigation functionality
 
 from datetime import datetime, timedelta
 from decimal import Decimal
+from typing import Any
 from unittest.mock import AsyncMock, patch
 from uuid import uuid4
+
 import pytest
-from typing import Any
 from app.main import app
 from fastapi.testclient import TestClient
 from models.portfolio import Portfolio, PortfolioAsset
@@ -16,13 +17,13 @@ from models.transaction import Transaction, TransactionStatus, TransactionType
 from models.user import User
 from services.risk.risk_management_service import (
     CreditRisk,
-    RiskManagementService,
     LiquidityRisk,
     MarketRisk,
     OperationalRisk,
     PortfolioRisk,
     RiskAssessment,
     RiskLevel,
+    RiskManagementService,
     RiskMetric,
     RiskType,
 )

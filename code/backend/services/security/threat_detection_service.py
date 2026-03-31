@@ -14,6 +14,7 @@ from datetime import datetime, timedelta, timezone
 from enum import Enum
 from statistics import mean
 from typing import Any, Dict, List, Optional, Set
+
 import numpy as np
 from fastapi import Request
 from services.security.encryption_service import EncryptionService

@@ -11,6 +11,7 @@ from decimal import Decimal
 from enum import Enum
 from typing import Any, Dict, List, Optional, Tuple
 from uuid import UUID
+
 import numpy as np
 import pandas as pd
 from models.portfolio import Portfolio, PortfolioAsset

@@ -2,9 +2,9 @@ import logging
 import uuid
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta, timezone
-from decimal import Decimal, ROUND_HALF_UP
+from decimal import ROUND_HALF_UP, Decimal
 from enum import Enum
-from typing import Any, Dict, List, Optional, Tuple, Coroutine
+from typing import Any, Coroutine, Dict, List, Optional, Tuple
 
 logger = logging.getLogger(__name__)
 

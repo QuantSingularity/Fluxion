@@ -13,6 +13,7 @@ from dataclasses import asdict, dataclass
 from datetime import datetime, timezone
 from enum import Enum
 from typing import Any, Dict, List, Optional
+
 from fastapi import Request, Response
 from services.audit.audit_service import AuditService
 from services.security.encryption_service import EncryptionService

@@ -1,9 +1,10 @@
 import logging
+from typing import Any
+
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 import torch
-from typing import Any
 import torch.nn as nn
 import torch.optim as optim
 from sklearn.preprocessing import StandardScaler

@@ -5,6 +5,7 @@ Base Pydantic schemas for Fluxion backend
 from datetime import datetime
 from typing import Any, Dict, Generic, List, Optional, TypeVar
 from uuid import UUID
+
 from pydantic import BaseModel, ConfigDict, Field, field_validator
 
 

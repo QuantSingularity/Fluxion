@@ -5,13 +5,14 @@ Validates infrastructure and application compliance with financial standards
 
 import argparse
 import json
+import logging
 import re
 import sys
 from datetime import datetime
 from pathlib import Path
 from typing import Any, Dict, Optional
+
 import yaml
-import logging
 
 logging.basicConfig(
     level=logging.INFO,

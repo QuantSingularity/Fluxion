@@ -5,15 +5,16 @@ Validates deployment readiness and configuration for production environments
 
 import argparse
 import json
+import logging
 import os
 import sys
 from datetime import datetime
 from pathlib import Path
 from typing import Any, Dict, List, Optional
+
 import hvac
 import requests
 from kubernetes import client, config
-import logging
 
 logging.basicConfig(
     level=logging.INFO,

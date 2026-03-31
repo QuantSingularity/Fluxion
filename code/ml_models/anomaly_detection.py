@@ -1,8 +1,9 @@
 import json
 import logging
 import os
-from typing import Any
 from datetime import datetime
+from typing import Any
+
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd

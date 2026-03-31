@@ -1,11 +1,12 @@
+import logging
+from typing import Any
+
+import numpy as np
 import torch
 import torch.nn as nn
-import numpy as np
-from typing import Any
-from torch.utils.data import Dataset, DataLoader
-from sklearn.preprocessing import MinMaxScaler
 from sklearn.model_selection import train_test_split
-import logging
+from sklearn.preprocessing import MinMaxScaler
+from torch.utils.data import DataLoader, Dataset
 
 logger = logging.getLogger(__name__)
 logging.basicConfig(level=logging.INFO)

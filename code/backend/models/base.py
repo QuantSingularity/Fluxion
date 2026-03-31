@@ -5,6 +5,7 @@ Base model classes for Fluxion backend
 import uuid
 from datetime import datetime
 from typing import Any, Dict, Optional
+
 from config.database import Base
 from sqlalchemy import JSON, Boolean, Column, DateTime, String, Text
 from sqlalchemy.dialects.postgresql import UUID

@@ -7,10 +7,11 @@ import asyncio
 import base64
 from datetime import datetime, timedelta
 from decimal import Decimal
+from typing import Any
 from unittest.mock import AsyncMock, patch
 from uuid import uuid4
+
 import pytest
-from typing import Any
 from app.main import app
 from fastapi.testclient import TestClient
 from models.compliance import DocumentType, KYCRecord, KYCStatus
@@ -20,8 +21,8 @@ from services.compliance.kyc_service import (
     BiometricVerificationResult,
     DocumentStatus,
     DocumentVerificationResult,
-    KYCService,
     KYCAssessment,
+    KYCService,
     KYCTier,
     RiskRating,
 )

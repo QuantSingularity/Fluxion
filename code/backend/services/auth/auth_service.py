@@ -8,6 +8,7 @@ import string
 from datetime import datetime, timedelta
 from typing import Optional, Tuple
 from uuid import UUID
+
 import bcrypt
 from config.settings import settings
 from models.compliance import AuditLog, AuditLogLevel

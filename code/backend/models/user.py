@@ -3,6 +3,8 @@ User models for Fluxion backend
 """
 
 import enum
+from datetime import datetime
+
 from models.base import (
     AuditMixin,
     BaseModel,
@@ -11,7 +13,6 @@ from models.base import (
     SoftDeleteMixin,
     TimestampMixin,
 )
-from datetime import datetime
 from sqlalchemy import (
     JSON,
     Boolean,

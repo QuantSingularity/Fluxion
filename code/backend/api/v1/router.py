@@ -3,8 +3,8 @@ API v1 Router for Fluxion Backend
 Aggregates all API routes for version 1 of the API
 """
 
-from fastapi import APIRouter
 from api.routes import auth
+from fastapi import APIRouter
 
 api_router = APIRouter()
 
