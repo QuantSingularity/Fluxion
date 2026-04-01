@@ -688,7 +688,7 @@ class TestComplianceIntegration:
     @pytest.mark.asyncio
     async def test_end_to_end_kyc_process(self):
         """Test complete KYC process from initiation to completion"""
-        kyc_service = EnhancedKYCService()
+        kyc_service = KYCService()
         mock_db = AsyncMock()
         user = User(
             id=uuid4(),

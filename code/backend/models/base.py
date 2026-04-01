@@ -2,8 +2,9 @@
 Base model classes for Fluxion backend
 """
 
+import logging
 import uuid
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Any, Dict, Optional
 
 from config.database import Base
@@ -11,6 +12,8 @@ from sqlalchemy import JSON, Boolean, Column, DateTime, String, Text
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.ext.declarative import declared_attr
 from sqlalchemy.sql import func
+
+logger = logging.getLogger(__name__)
 
 
 class BaseModel(Base):

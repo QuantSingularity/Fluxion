@@ -637,8 +637,8 @@ class JWTService:
                             f"blacklist:jti:{jti}"
                         )
                         return bool(jti_result)
-                except:
-                    logger.debug(f"Skipping expired token cleanup")
+                except Exception:
+                    logger.debug("Skipping expired token cleanup")
             except Exception as e:
                 logger.warning(f"Failed to check token blacklist in Redis: {e}")
         return False

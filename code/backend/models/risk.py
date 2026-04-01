@@ -3,7 +3,7 @@ Risk management models for Fluxion backend
 """
 
 import enum
-from datetime import datetime
+from datetime import datetime, timezone
 from decimal import Decimal
 from typing import Any, Dict, Optional
 

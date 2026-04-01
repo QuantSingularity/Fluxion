@@ -3,7 +3,7 @@ User models for Fluxion backend
 """
 
 import enum
-from datetime import datetime
+from datetime import datetime, timezone
 
 from models.base import (
     AuditMixin,

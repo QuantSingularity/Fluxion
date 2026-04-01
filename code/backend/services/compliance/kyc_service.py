@@ -579,7 +579,7 @@ class KYCService:
                     extracted_data["expiry_date"], "%Y-%m-%d"
                 )
                 checks["not_expired"] = expiry_date > datetime.now(timezone.utc)
-            except:
+            except Exception:
                 checks["not_expired"] = False
         if metadata.get("image_quality", 1.0) < 0.7:
             checks["readable_text"] = False
