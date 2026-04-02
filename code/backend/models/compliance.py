@@ -3,7 +3,7 @@ Compliance models for Fluxion backend
 """
 
 import enum
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 from typing import Optional
 
 from models.base import AuditMixin, BaseModel, EncryptedMixin, TimestampMixin
