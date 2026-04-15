@@ -91,10 +91,9 @@ const apyData = [
 ];
 
 const Pools = () => {
-  const { isConnected, pools } = useWeb3();
+  const { isConnected } = useWeb3();
   const cardBg = useColorModeValue("gray.800", "gray.700");
   const borderColor = useColorModeValue("gray.700", "gray.600");
-  const _textColor = useColorModeValue("white", "white");
   const subTextColor = useColorModeValue("gray.400", "gray.400");
 
   // State for filtering and sorting
@@ -207,13 +206,20 @@ const Pools = () => {
         return false;
       }
 
-      // Filter by type
-      if (filterType !== "all" && pool.type !== filterType) {
+      // Filter by type (skip the "my-pools" virtual filter here)
+      if (
+        filterType !== "all" &&
+        filterType !== "my-pools" &&
+        pool.type !== filterType
+      ) {
         return false;
       }
 
       // Filter by user's pools
-      if (filterType === "my-pools" && pool.myLiquidity === "$0") {
+      if (
+        filterType === "my-pools" &&
+        (pool.myLiquidity === "$0" || pool.myLiquidity === "")
+      ) {
         return false;
       }
 

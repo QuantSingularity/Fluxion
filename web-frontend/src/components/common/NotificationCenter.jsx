@@ -8,16 +8,16 @@ import {
   VStack,
 } from "@chakra-ui/react";
 import { useEffect } from "react";
-import { useUI } from "../../contexts/UIContext";
+import { useUI } from "../../lib/ui-context";
 
 const NotificationCenter = ({ notifications }) => {
-  const { removeNotification } = useUI();
+  const { dismissNotification } = useUI();
 
   useEffect(() => {
     const timeoutIds = notifications.map((notification) => {
       if (notification.autoClose !== false) {
         return setTimeout(() => {
-          removeNotification(notification.id);
+          dismissNotification(notification.id);
         }, notification.duration || 5000);
       }
       return null;
@@ -26,7 +26,7 @@ const NotificationCenter = ({ notifications }) => {
     return () => {
       timeoutIds.forEach((id) => id && clearTimeout(id));
     };
-  }, [notifications, removeNotification]);
+  }, [notifications, dismissNotification]);
 
   return (
     <Box
@@ -58,7 +58,7 @@ const NotificationCenter = ({ notifications }) => {
               position="absolute"
               right="8px"
               top="8px"
-              onClick={() => removeNotification(notification.id)}
+              onClick={() => dismissNotification(notification.id)}
             />
           </Alert>
         ))}

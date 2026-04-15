@@ -58,7 +58,6 @@ const Settings = () => {
   const { isConnected, account } = useWeb3();
   const cardBg = useColorModeValue("gray.800", "gray.700");
   const borderColor = useColorModeValue("gray.700", "gray.600");
-  const _textColor = useColorModeValue("white", "white");
   const subTextColor = useColorModeValue("gray.400", "gray.400");
 
   // State for settings

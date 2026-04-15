@@ -1,50 +1,38 @@
 import { ethers } from "ethers";
 
-// A more complete, albeit still example, ABI for a synthetic asset factory
 export const SYNTHETIC_ABI = [
-  // Event emitted when a new synthetic asset is created
   "event SyntheticAssetCreated(address indexed assetAddress, string assetId, address oracle, bytes32 jobId, uint256 paymentAmount)",
-
-  // Function to create a new synthetic asset
   "function createSynthetic(string memory assetId, address oracle, bytes32 jobId, uint256 paymentAmount) external returns (address)",
-
-  // Function to get the address of a synthetic asset by its ID
   "function getSyntheticAsset(string memory assetId) external view returns (address)",
-
-  // Function to check if a synthetic asset ID exists
   "function syntheticAssetExists(string memory assetId) external view returns (bool)",
-
-  // Owner-only functions (examples)
-  "function setFee(uint256 newFee) external", // Example: Set a creation fee
-  "function withdrawFees() external", // Example: Withdraw collected fees
+  "function setFee(uint256 newFee) external",
+  "function withdrawFees() external",
   "function owner() external view returns (address)",
   "function transferOwnership(address newOwner) external",
 ];
 
 export async function createSyntheticAsset(provider, params) {
-  if (!provider || !params || !process.env.FACTORY_ADDRESS) {
-    console.error(
-      "Missing provider, params, or FACTORY_ADDRESS for createSyntheticAsset",
-    );
-    throw new Error("Configuration error for creating synthetic asset.");
+  if (!provider || !params) {
+    throw new Error("Missing provider or params for createSyntheticAsset");
   }
 
-  const signer = provider.getSigner();
-  const factory = new ethers.Contract(
-    process.env.FACTORY_ADDRESS,
-    SYNTHETIC_ABI,
-    signer,
-  );
+  const factoryAddress = import.meta.env?.VITE_FACTORY_ADDRESS;
+  if (!factoryAddress) {
+    throw new Error("VITE_FACTORY_ADDRESS not configured");
+  }
+
+  const signer = await provider.getSigner(); // ethers v6 uses await
+  const factory = new ethers.Contract(factoryAddress, SYNTHETIC_ABI, signer);
 
   try {
+    // ethers v6: ethers.parseEther (not ethers.utils.parseEther)
     const tx = await factory.createSynthetic(
-      params.assetId, // e.g., "sUSD"
-      params.oracle, // e.g., Chainlink oracle address
-      params.jobId, // e.g., Chainlink Job ID
-      ethers.utils.parseEther(params.payment.toString()), // e.g., Collateral amount
+      params.assetId,
+      params.oracle,
+      params.jobId,
+      ethers.parseEther(params.payment.toString()),
     );
-
-    return tx.wait(); // Returns transaction receipt
+    return tx.wait();
   } catch (error) {
     console.error("Error creating synthetic asset:", error);
     throw error;

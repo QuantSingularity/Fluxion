@@ -1,20 +1,11 @@
 import {
   Box,
   Button,
-  Drawer,
-  DrawerBody,
-  DrawerCloseButton,
-  DrawerContent,
-  DrawerHeader,
-  DrawerOverlay,
   Flex,
-  Heading,
-  HStack,
   Icon,
   Image,
   Text,
   useColorModeValue,
-  useDisclosure,
   VStack,
 } from "@chakra-ui/react";
 import {
@@ -22,76 +13,90 @@ import {
   FiDollarSign,
   FiDroplet,
   FiExternalLink,
+  FiGrid,
   FiHome,
-  FiMenu,
   FiSettings,
 } from "react-icons/fi";
-import { Link as RouterLink } from "react-router-dom";
+import { NavLink, useLocation } from "react-router-dom";
 import logo from "../../assets/images/fluxion-logo.svg";
 
-const NavItem = ({ icon, children, to, ...rest }) => {
+const NavItem = ({ icon, children, to }) => {
+  const location = useLocation();
+  // exact match for home, prefix match for others
+  const isActive =
+    to === "/" ? location.pathname === "/" : location.pathname.startsWith(to);
+
   return (
     <Box
-      as={RouterLink}
+      as={NavLink}
       to={to}
       style={{ textDecoration: "none" }}
       _focus={{ boxShadow: "none" }}
+      display="block"
     >
       <Flex
         align="center"
-        p="4"
-        mx="4"
+        p="3"
+        mx="3"
         borderRadius="lg"
         role="group"
         cursor="pointer"
+        bg={isActive ? "brand.500" : "transparent"}
+        color={isActive ? "white" : "gray.300"}
         _hover={{
-          bg: "brand.500",
+          bg: isActive ? "brand.500" : "gray.700",
           color: "white",
-          transform: "translateY(-2px)",
-          transition: "all 0.3s ease",
+          transform: "translateX(2px)",
         }}
-        {...rest}
+        transition="all 0.2s ease"
+        fontSize="sm"
+        fontWeight={isActive ? "semibold" : "normal"}
       >
-        {icon && (
-          <Icon
-            mr="4"
-            fontSize="16"
-            _groupHover={{
-              color: "white",
-            }}
-            as={icon}
-          />
-        )}
+        <Icon
+          mr="3"
+          fontSize="16"
+          as={icon}
+          color={isActive ? "white" : "gray.400"}
+          _groupHover={{ color: "white" }}
+        />
         {children}
       </Flex>
     </Box>
   );
 };
 
-const SidebarContent = ({ ...rest }) => {
+const Sidebar = () => {
+  const borderColor = useColorModeValue("gray.800", "gray.700");
+
   return (
     <Box
-      bg={useColorModeValue("gray.900", "gray.900")}
+      bg="gray.900"
       borderRight="1px"
-      borderRightColor={useColorModeValue("gray.800", "gray.700")}
-      w={{ base: "full", md: 60 }}
-      pos="fixed"
+      borderRightColor={borderColor}
+      w="full"
       h="full"
-      {...rest}
+      overflowY="auto"
+      py={4}
     >
-      <Flex h="20" alignItems="center" mx="8" justifyContent="space-between">
-        <Image src={logo} alt="Fluxion Logo" h="10" />
-        <Heading
-          as="h1"
-          fontSize="xl"
-          fontFamily="heading"
+      {/* Logo */}
+      <Flex h="14" alignItems="center" px="6" mb={4}>
+        <Image src={logo} alt="Fluxion Logo" h="8" mr={3} />
+        <Text
+          fontSize="lg"
+          fontWeight="bold"
+          color="white"
           letterSpacing="tight"
         >
           Fluxion
-        </Heading>
+        </Text>
       </Flex>
-      <VStack spacing={1} align="stretch" mt={6}>
+
+      {/* Nav links */}
+      <VStack spacing={1} align="stretch">
         <NavItem icon={FiHome} to="/">
+          Home
+        </NavItem>
+        <NavItem icon={FiGrid} to="/dashboard">
           Dashboard
         </NavItem>
         <NavItem icon={FiDroplet} to="/pools">
@@ -108,104 +113,25 @@ const SidebarContent = ({ ...rest }) => {
         </NavItem>
       </VStack>
 
-      <Box position="absolute" bottom="5" width="100%">
-        <Box mx="8" mb="4">
-          <Button
-            leftIcon={<FiExternalLink />}
-            colorScheme="brand"
-            variant="outline"
-            size="sm"
-            width="full"
-            _hover={{
-              bg: "brand.500",
-              color: "white",
-              borderColor: "brand.500",
-            }}
-          >
-            Documentation
-          </Button>
-        </Box>
-        <Text fontSize="xs" color="gray.400" textAlign="center" px="8">
+      {/* Bottom doc button */}
+      <Box position="absolute" bottom={5} left={0} right={0} px={4}>
+        <Button
+          as="a"
+          href="https://docs.fluxion.finance"
+          target="_blank"
+          rel="noopener noreferrer"
+          leftIcon={<FiExternalLink />}
+          colorScheme="brand"
+          variant="outline"
+          size="sm"
+          width="full"
+          _hover={{ bg: "brand.500", color: "white", borderColor: "brand.500" }}
+        >
+          Documentation
+        </Button>
+        <Text fontSize="xs" color="gray.500" textAlign="center" mt={3}>
           Fluxion v1.0.0
         </Text>
-      </Box>
-    </Box>
-  );
-};
-
-const MobileNav = ({ onOpen, ...rest }) => {
-  return (
-    <Flex
-      ml={{ base: 0, md: 60 }}
-      px={{ base: 4, md: 4 }}
-      height="20"
-      alignItems="center"
-      bg={useColorModeValue("gray.900", "gray.900")}
-      borderBottomWidth="1px"
-      borderBottomColor={useColorModeValue("gray.800", "gray.700")}
-      justifyContent={{ base: "space-between", md: "flex-end" }}
-      {...rest}
-    >
-      <Box display={{ base: "flex", md: "none" }}>
-        <Button
-          variant="outline"
-          onClick={onOpen}
-          aria-label="open menu"
-          leftIcon={<FiMenu />}
-        >
-          Menu
-        </Button>
-      </Box>
-
-      <Box display={{ base: "flex", md: "none" }}>
-        <Image src={logo} alt="Fluxion Logo" h="8" />
-      </Box>
-
-      <HStack spacing={{ base: "0", md: "6" }}>
-        <Button
-          size="sm"
-          variant="solid"
-          colorScheme="brand"
-          bgGradient="linear(to-r, brand.500, accent.500)"
-          _hover={{
-            bgGradient: "linear(to-r, brand.600, accent.600)",
-            transform: "translateY(-2px)",
-            boxShadow: "lg",
-          }}
-        >
-          Connect Wallet
-        </Button>
-      </HStack>
-    </Flex>
-  );
-};
-
-const Sidebar = () => {
-  const { isOpen, onOpen, onClose } = useDisclosure();
-
-  return (
-    <Box minH="100vh" bg={useColorModeValue("gray.950", "gray.900")}>
-      <SidebarContent display={{ base: "none", md: "block" }} />
-      <Drawer
-        isOpen={isOpen}
-        placement="left"
-        onClose={onClose}
-        returnFocusOnClose={false}
-        onOverlayClick={onClose}
-        size="full"
-      >
-        <DrawerOverlay />
-        <DrawerContent>
-          <DrawerCloseButton />
-          <DrawerHeader borderBottomWidth="1px">Fluxion Menu</DrawerHeader>
-          <DrawerBody>
-            <SidebarContent w="full" borderRight="none" />
-          </DrawerBody>
-        </DrawerContent>
-      </Drawer>
-      <MobileNav onOpen={onOpen} />
-      <Box ml={{ base: 0, md: 60 }} p="4">
-        {/* Content */}
       </Box>
     </Box>
   );

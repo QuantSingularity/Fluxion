@@ -42,7 +42,6 @@ import {
 } from "recharts";
 import { useWeb3 } from "../../lib/web3-config.jsx";
 
-// Mock data for charts
 const tvlData = [
   { name: "Jan", tvl: 4000 },
   { name: "Feb", tvl: 3000 },
@@ -72,17 +71,20 @@ const poolDistribution = [
 
 const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042"];
 
+const tooltipStyle = {
+  backgroundColor: "rgba(15,20,30,0.95)",
+  border: "1px solid #333",
+  borderRadius: "4px",
+  color: "white",
+};
+
 const Dashboard = () => {
-  const { isConnected, pools } = useWeb3();
+  const { isConnected, connectWallet } = useWeb3();
   const cardBg = useColorModeValue("gray.800", "gray.700");
   const borderColor = useColorModeValue("gray.700", "gray.600");
-  const _textColor = useColorModeValue("white", "white");
-  const subTextColor = useColorModeValue("gray.400", "gray.400");
-
-  // State for active tab
+  const subTextColor = "gray.400";
   const [activeTab, setActiveTab] = useState(0);
 
-  // Mock user positions
   const userPositions = [
     {
       id: "position-1",
@@ -102,7 +104,6 @@ const Dashboard = () => {
     },
   ];
 
-  // Mock recent transactions
   const recentTransactions = [
     {
       id: "tx-1",
@@ -132,7 +133,7 @@ const Dashboard = () => {
 
   return (
     <Box>
-      {/* Hero Section */}
+      {/* Hero */}
       <Box
         p={8}
         borderRadius="xl"
@@ -144,7 +145,6 @@ const Dashboard = () => {
         position="relative"
         overflow="hidden"
       >
-        {/* Decorative elements */}
         <Box
           position="absolute"
           top="-50px"
@@ -153,7 +153,8 @@ const Dashboard = () => {
           h="200px"
           borderRadius="full"
           bg="brand.500"
-          opacity="0.1"
+          opacity="0.08"
+          filter="blur(30px)"
         />
         <Box
           position="absolute"
@@ -163,7 +164,8 @@ const Dashboard = () => {
           h="100px"
           borderRadius="full"
           bg="accent.500"
-          opacity="0.1"
+          opacity="0.08"
+          filter="blur(20px)"
         />
 
         <Flex
@@ -172,15 +174,14 @@ const Dashboard = () => {
           align={{ base: "flex-start", md: "center" }}
         >
           <Box mb={{ base: 6, md: 0 }}>
-            <Heading as="h1" size="xl" mb={4}>
+            <Heading as="h1" size="xl" mb={3}>
               Welcome to Fluxion
             </Heading>
-            <Text fontSize="lg" color={subTextColor} maxW="600px">
-              The next-generation decentralized liquidity protocol. Provide
+            <Text fontSize="md" color={subTextColor} maxW="600px">
+              The next-generation decentralised liquidity protocol. Provide
               liquidity, earn fees, and participate in the future of DeFi.
             </Text>
           </Box>
-
           <HStack spacing={4}>
             <RouterLink to="/pools">
               <Button
@@ -188,15 +189,11 @@ const Dashboard = () => {
                 colorScheme="brand"
                 size="lg"
                 variant="outline"
-                _hover={{
-                  transform: "translateY(-2px)",
-                  boxShadow: "lg",
-                }}
+                _hover={{ transform: "translateY(-2px)", boxShadow: "lg" }}
               >
                 Explore Pools
               </Button>
             </RouterLink>
-
             <RouterLink to="/pools/create">
               <Button
                 leftIcon={<FiPlus />}
@@ -216,120 +213,77 @@ const Dashboard = () => {
         </Flex>
       </Box>
 
-      {/* Stats Overview */}
-      <SimpleGrid columns={{ base: 1, md: 4 }} spacing={6} mb={8}>
-        <Box
-          bg={cardBg}
-          p={6}
-          borderRadius="lg"
-          boxShadow="md"
-          border="1px solid"
-          borderColor={borderColor}
-        >
-          <Stat>
-            <StatLabel>Total Value Locked</StatLabel>
-            <StatNumber>$142.5M</StatNumber>
-            <StatHelpText>
-              <StatArrow type="increase" />
-              23.36%
-            </StatHelpText>
-          </Stat>
-        </Box>
-
-        <Box
-          bg={cardBg}
-          p={6}
-          borderRadius="lg"
-          boxShadow="md"
-          border="1px solid"
-          borderColor={borderColor}
-        >
-          <Stat>
-            <StatLabel>24h Volume</StatLabel>
-            <StatNumber>$28.4M</StatNumber>
-            <StatHelpText>
-              <StatArrow type="increase" />
-              12.05%
-            </StatHelpText>
-          </Stat>
-        </Box>
-
-        <Box
-          bg={cardBg}
-          p={6}
-          borderRadius="lg"
-          boxShadow="md"
-          border="1px solid"
-          borderColor={borderColor}
-        >
-          <Stat>
-            <StatLabel>Active Pools</StatLabel>
-            <StatNumber>247</StatNumber>
-            <StatHelpText>
-              <StatArrow type="increase" />8 new today
-            </StatHelpText>
-          </Stat>
-        </Box>
-
-        <Box
-          bg={cardBg}
-          p={6}
-          borderRadius="lg"
-          boxShadow="md"
-          border="1px solid"
-          borderColor={borderColor}
-        >
-          <Stat>
-            <StatLabel>Average APY</StatLabel>
-            <StatNumber>8.74%</StatNumber>
-            <StatHelpText>
-              <StatArrow type="decrease" />
-              0.42%
-            </StatHelpText>
-          </Stat>
-        </Box>
+      {/* Stats */}
+      <SimpleGrid columns={{ base: 1, md: 4 }} spacing={5} mb={8}>
+        {[
+          {
+            label: "Total Value Locked",
+            value: "$142.5M",
+            change: "23.36%",
+            up: true,
+          },
+          { label: "24h Volume", value: "$28.4M", change: "12.05%", up: true },
+          {
+            label: "Active Pools",
+            value: "247",
+            change: "8 new today",
+            up: true,
+          },
+          { label: "Average APY", value: "8.74%", change: "0.42%", up: false },
+        ].map((s, i) => (
+          <Box
+            key={i}
+            bg={cardBg}
+            p={5}
+            borderRadius="lg"
+            border="1px solid"
+            borderColor={borderColor}
+          >
+            <Stat>
+              <StatLabel color={subTextColor}>{s.label}</StatLabel>
+              <StatNumber>{s.value}</StatNumber>
+              <StatHelpText>
+                <StatArrow type={s.up ? "increase" : "decrease"} />
+                {s.change}
+              </StatHelpText>
+            </Stat>
+          </Box>
+        ))}
       </SimpleGrid>
 
-      {/* Charts Section */}
+      {/* Charts */}
       <SimpleGrid columns={{ base: 1, lg: 2 }} spacing={8} mb={8}>
         <Box
           bg={cardBg}
           p={6}
           borderRadius="lg"
-          boxShadow="md"
           border="1px solid"
           borderColor={borderColor}
         >
-          <Heading size="md" mb={6}>
+          <Heading size="md" mb={5}>
             Total Value Locked
           </Heading>
-          <Box h="300px">
+          <Box h="280px">
             <ResponsiveContainer width="100%" height="100%">
               <AreaChart
                 data={tvlData}
-                margin={{ top: 10, right: 30, left: 0, bottom: 0 }}
+                margin={{ top: 10, right: 20, left: 0, bottom: 0 }}
               >
                 <defs>
                   <linearGradient id="colorTvl" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="5%" stopColor="#0080ff" stopOpacity={0.8} />
+                    <stop offset="5%" stopColor="#0080ff" stopOpacity={0.7} />
                     <stop offset="95%" stopColor="#0080ff" stopOpacity={0} />
                   </linearGradient>
                 </defs>
-                <CartesianGrid strokeDasharray="3 3" stroke="#444" />
-                <XAxis dataKey="name" stroke="#888" />
-                <YAxis stroke="#888" />
-                <Tooltip
-                  contentStyle={{
-                    backgroundColor: "rgba(23, 25, 35, 0.9)",
-                    border: "1px solid #333",
-                    borderRadius: "4px",
-                    color: "white",
-                  }}
-                />
+                <CartesianGrid strokeDasharray="3 3" stroke="#333" />
+                <XAxis dataKey="name" stroke="#666" />
+                <YAxis stroke="#666" />
+                <Tooltip contentStyle={tooltipStyle} />
                 <Area
                   type="monotone"
                   dataKey="tvl"
                   stroke="#0080ff"
+                  strokeWidth={2}
                   fillOpacity={1}
                   fill="url(#colorTvl)"
                 />
@@ -342,30 +296,22 @@ const Dashboard = () => {
           bg={cardBg}
           p={6}
           borderRadius="lg"
-          boxShadow="md"
           border="1px solid"
           borderColor={borderColor}
         >
-          <Heading size="md" mb={6}>
+          <Heading size="md" mb={5}>
             Trading Volume
           </Heading>
-          <Box h="300px">
+          <Box h="280px">
             <ResponsiveContainer width="100%" height="100%">
               <BarChart
                 data={volumeData}
-                margin={{ top: 10, right: 30, left: 0, bottom: 0 }}
+                margin={{ top: 10, right: 20, left: 0, bottom: 0 }}
               >
-                <CartesianGrid strokeDasharray="3 3" stroke="#444" />
-                <XAxis dataKey="name" stroke="#888" />
-                <YAxis stroke="#888" />
-                <Tooltip
-                  contentStyle={{
-                    backgroundColor: "rgba(23, 25, 35, 0.9)",
-                    border: "1px solid #333",
-                    borderRadius: "4px",
-                    color: "white",
-                  }}
-                />
+                <CartesianGrid strokeDasharray="3 3" stroke="#333" />
+                <XAxis dataKey="name" stroke="#666" />
+                <YAxis stroke="#666" />
+                <Tooltip contentStyle={tooltipStyle} />
                 <Bar dataKey="volume" fill="#ff7000" radius={[4, 4, 0, 0]} />
               </BarChart>
             </ResponsiveContainer>
@@ -378,16 +324,15 @@ const Dashboard = () => {
         bg={cardBg}
         p={6}
         borderRadius="lg"
-        boxShadow="md"
         border="1px solid"
         borderColor={borderColor}
         mb={8}
       >
-        <Heading size="md" mb={6}>
+        <Heading size="md" mb={5}>
           Pool Distribution
         </Heading>
         <SimpleGrid columns={{ base: 1, md: 2 }} spacing={8}>
-          <Box h="300px">
+          <Box h="280px">
             <ResponsiveContainer width="100%" height="100%">
               <PieChart>
                 <Pie
@@ -395,40 +340,31 @@ const Dashboard = () => {
                   cx="50%"
                   cy="50%"
                   labelLine={false}
-                  outerRadius={120}
-                  fill="#8884d8"
+                  outerRadius={110}
                   dataKey="value"
                   label={({ name, percent }) =>
                     `${name} ${(percent * 100).toFixed(0)}%`
                   }
                 >
-                  {poolDistribution.map((_entry, index) => (
+                  {poolDistribution.map((_, index) => (
                     <Cell
                       key={`cell-${index}`}
                       fill={COLORS[index % COLORS.length]}
                     />
                   ))}
                 </Pie>
-                <Tooltip
-                  contentStyle={{
-                    backgroundColor: "rgba(23, 25, 35, 0.9)",
-                    border: "1px solid #333",
-                    borderRadius: "4px",
-                    color: "white",
-                  }}
-                />
+                <Tooltip contentStyle={tooltipStyle} />
               </PieChart>
             </ResponsiveContainer>
           </Box>
-
           <Box>
             <Heading size="sm" mb={4}>
               Top Pools by TVL
             </Heading>
-            <VStack spacing={4} align="stretch">
+            <VStack spacing={3} align="stretch">
               {poolDistribution.map((pool, index) => (
                 <Card key={index} bg="gray.700" variant="outline">
-                  <CardBody>
+                  <CardBody py={3}>
                     <Flex justify="space-between" align="center">
                       <HStack>
                         <Box
@@ -449,13 +385,12 @@ const Dashboard = () => {
         </SimpleGrid>
       </Box>
 
-      {/* User Dashboard or Connect Wallet */}
+      {/* Wallet section */}
       {isConnected ? (
         <Box
           bg={cardBg}
           p={6}
           borderRadius="lg"
-          boxShadow="md"
           border="1px solid"
           borderColor={borderColor}
         >
@@ -463,20 +398,19 @@ const Dashboard = () => {
             variant="soft-rounded"
             colorScheme="brand"
             index={activeTab}
-            onChange={(index) => setActiveTab(index)}
+            onChange={setActiveTab}
           >
-            <TabList mb={6}>
+            <TabList mb={5}>
               <Tab>My Positions</Tab>
               <Tab>Recent Transactions</Tab>
               <Tab>Rewards</Tab>
             </TabList>
-
             <TabPanels>
               <TabPanel px={0}>
-                <SimpleGrid columns={{ base: 1, md: 2 }} spacing={6}>
-                  {userPositions.map((position, index) => (
+                <SimpleGrid columns={{ base: 1, md: 2 }} spacing={5}>
+                  {userPositions.map((pos, i) => (
                     <Box
-                      key={index}
+                      key={i}
                       p={4}
                       borderRadius="md"
                       bg="gray.700"
@@ -485,34 +419,38 @@ const Dashboard = () => {
                       _hover={{
                         borderColor: "brand.500",
                         transform: "translateY(-2px)",
-                        transition: "all 0.3s ease",
                       }}
+                      transition="all 0.2s"
                     >
                       <Flex justify="space-between" mb={3}>
-                        <Heading size="md">{position.pool}</Heading>
+                        <Heading size="md">{pos.pool}</Heading>
                         <Badge colorScheme="green" px={2} py={1}>
-                          {position.apy} APY
+                          {pos.apy} APY
                         </Badge>
                       </Flex>
-
-                      <SimpleGrid columns={2} spacing={4} mb={4}>
+                      <SimpleGrid columns={2} spacing={3} mb={4}>
                         <Box>
-                          <Text color={subTextColor}>My Liquidity</Text>
-                          <Text fontWeight="bold">{position.liquidity}</Text>
+                          <Text color={subTextColor} fontSize="sm">
+                            My Liquidity
+                          </Text>
+                          <Text fontWeight="bold">{pos.liquidity}</Text>
                         </Box>
                         <Box>
-                          <Text color={subTextColor}>Pool Share</Text>
-                          <Text fontWeight="bold">{position.share}</Text>
+                          <Text color={subTextColor} fontSize="sm">
+                            Pool Share
+                          </Text>
+                          <Text fontWeight="bold">{pos.share}</Text>
                         </Box>
                         <Box>
-                          <Text color={subTextColor}>Earnings</Text>
+                          <Text color={subTextColor} fontSize="sm">
+                            Earnings
+                          </Text>
                           <Text fontWeight="bold" color="green.400">
-                            {position.earnings}
+                            {pos.earnings}
                           </Text>
                         </Box>
                       </SimpleGrid>
-
-                      <HStack spacing={2} mt={4}>
+                      <HStack spacing={2}>
                         <Button size="sm" variant="outline" flex="1">
                           Add Liquidity
                         </Button>
@@ -526,9 +464,9 @@ const Dashboard = () => {
               </TabPanel>
 
               <TabPanel px={0}>
-                <VStack spacing={4} align="stretch">
-                  {recentTransactions.map((tx, index) => (
-                    <Card key={index} bg="gray.700" variant="outline">
+                <VStack spacing={3} align="stretch">
+                  {recentTransactions.map((tx, i) => (
+                    <Card key={i} bg="gray.700" variant="outline">
                       <CardBody>
                         <Flex justify="space-between" align="center">
                           <HStack>
@@ -566,9 +504,9 @@ const Dashboard = () => {
                   <Heading size="md" mb={2}>
                     Rewards Program Coming Soon
                   </Heading>
-                  <Text color={subTextColor} maxW="600px" mx="auto">
+                  <Text color={subTextColor} maxW="500px" mx="auto">
                     We're working on an exciting rewards program for liquidity
-                    providers. Stay tuned for updates!
+                    providers. Stay tuned!
                   </Text>
                 </Box>
               </TabPanel>
@@ -580,16 +518,15 @@ const Dashboard = () => {
           bg={cardBg}
           p={8}
           borderRadius="lg"
-          boxShadow="md"
           border="1px solid"
           borderColor={borderColor}
           textAlign="center"
         >
           <Icon as={FiDollarSign} boxSize={12} color="brand.500" mb={4} />
-          <Heading size="lg" mb={4}>
+          <Heading size="lg" mb={3}>
             Connect Your Wallet
           </Heading>
-          <Text color={subTextColor} maxW="600px" mx="auto" mb={6}>
+          <Text color={subTextColor} maxW="500px" mx="auto" mb={6}>
             Connect your wallet to view your positions, track your earnings, and
             participate in the Fluxion ecosystem.
           </Text>
@@ -602,6 +539,7 @@ const Dashboard = () => {
               transform: "translateY(-2px)",
               boxShadow: "lg",
             }}
+            onClick={connectWallet}
           >
             Connect Wallet
           </Button>

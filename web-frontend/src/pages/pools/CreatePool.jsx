@@ -46,7 +46,6 @@ const CreatePool = () => {
   const { isConnected } = useWeb3();
   const cardBg = useColorModeValue("gray.800", "gray.700");
   const borderColor = useColorModeValue("gray.700", "gray.600");
-  const _textColor = useColorModeValue("white", "white");
   const subTextColor = useColorModeValue("gray.400", "gray.400");
   const toast = useToast();
 
@@ -63,50 +62,51 @@ const CreatePool = () => {
   // Colors for pie chart
   const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042", "#8884D8"];
 
-  // Handle weight change
+  // Handle weight change - redistribute remaining weight proportionally
   const handleWeightChange = (index, value) => {
+    const clamped = Math.max(1, Math.min(99, value));
     const newAssets = [...assets];
-    newAssets[index].weight = value;
+    newAssets[index].weight = clamped;
 
-    // Adjust other weights to ensure total is 100%
-    const totalOtherWeights = newAssets.reduce(
-      (sum, asset, i) => (i !== index ? sum + asset.weight : sum),
+    const otherIndices = newAssets.map((_, i) => i).filter((i) => i !== index);
+    const totalOther = otherIndices.reduce(
+      (s, i) => s + newAssets[i].weight,
       0,
     );
+    const remaining = 100 - clamped;
 
-    if (totalOtherWeights + value !== 100) {
-      const remainingWeight = 100 - value;
-      const weightRatio = remainingWeight / totalOtherWeights;
-
-      newAssets.forEach((asset, i) => {
-        if (i !== index) {
-          asset.weight = Math.round(asset.weight * weightRatio);
+    if (otherIndices.length > 0 && totalOther > 0) {
+      // Distribute proportionally
+      let assigned = 0;
+      otherIndices.forEach((i, pos) => {
+        if (pos === otherIndices.length - 1) {
+          // Last item gets the remainder to avoid rounding drift
+          newAssets[i].weight = Math.max(1, remaining - assigned);
+        } else {
+          const w = Math.max(
+            1,
+            Math.round((newAssets[i].weight / totalOther) * remaining),
+          );
+          newAssets[i].weight = w;
+          assigned += w;
         }
       });
-
-      // Adjust for rounding errors
-      const finalTotal = newAssets.reduce(
-        (sum, asset) => sum + asset.weight,
-        0,
-      );
-      if (finalTotal !== 100) {
-        const diff = 100 - finalTotal;
-        for (let i = 0; i < newAssets.length; i++) {
-          if (i !== index) {
-            newAssets[i].weight += diff;
-            break;
-          }
-        }
-      }
+    } else if (otherIndices.length > 0) {
+      // Edge case: spread evenly
+      const each = Math.floor(remaining / otherIndices.length);
+      const extra = remaining - each * otherIndices.length;
+      otherIndices.forEach((i, pos) => {
+        newAssets[i].weight = each + (pos === 0 ? extra : 0);
+      });
     }
 
     setAssets(newAssets);
   };
 
-  // Handle amount change
-  const handleAmountChange = (index, value) => {
+  // Handle amount change - parse safely
+  const handleAmountChange = (index, _strVal, numVal) => {
     const newAssets = [...assets];
-    newAssets[index].amount = value;
+    newAssets[index].amount = isNaN(numVal) ? 0 : numVal;
     setAssets(newAssets);
   };
 
@@ -442,7 +442,9 @@ const CreatePool = () => {
                       <NumberInput
                         min={0}
                         value={asset.amount}
-                        onChange={(_, val) => handleAmountChange(index, val)}
+                        onChange={(strVal, numVal) =>
+                          handleAmountChange(index, strVal, numVal)
+                        }
                       >
                         <NumberInputField />
                         <NumberInputStepper>
@@ -628,7 +630,9 @@ const CreatePool = () => {
                 boxShadow: "lg",
               }}
               onClick={createPool}
-              isDisabled={!isConnected || assets.some((a) => a.amount <= 0)}
+              isDisabled={
+                !isConnected || assets.some((a) => !a.amount || a.amount <= 0)
+              }
             >
               Create Pool
             </Button>
@@ -639,7 +643,7 @@ const CreatePool = () => {
               </Text>
             )}
 
-            {assets.some((a) => a.amount <= 0) && (
+            {assets.some((a) => !a.amount || a.amount <= 0) && (
               <Text fontSize="sm" color="yellow.300" textAlign="center" mt={2}>
                 All assets must have an amount greater than zero
               </Text>
