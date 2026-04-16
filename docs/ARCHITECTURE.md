@@ -236,17 +236,17 @@ Factory contract for creating synthetic assets.
 
 ```solidity
 contract SyntheticAssetFactory {
-    mapping(bytes32 => SyntheticAsset) public syntheticAssets;
+  mapping(bytes32 => SyntheticAsset) public syntheticAssets;
 
-    function createSynthetic(
-        bytes32 _assetId,
-        address _oracle,
-        bytes32 _jobId,
-        uint256 _fee
-    ) external onlyOwner;
+  function createSynthetic(
+    bytes32 _assetId,
+    address _oracle,
+    bytes32 _jobId,
+    uint256 _fee
+  ) external onlyOwner;
 
-    function mintSynthetic(bytes32 _assetId, uint256 _amount) external;
-    function burnSynthetic(bytes32 _assetId, uint256 _amount) external;
+  function mintSynthetic(bytes32 _assetId, uint256 _amount) external;
+  function burnSynthetic(bytes32 _assetId, uint256 _amount) external;
 }
 ```
 
@@ -281,10 +281,15 @@ contract FluxionLiquidityPoolManager {
 ERC20 governance token with voting and staking.
 
 ```solidity
-contract FluxionGovernanceToken is ERC20, ERC20Votes, ERC20Permit, AccessControl {
-    function stake(uint256 amount) external;
-    function unstake(uint256 amount) external;
-    function delegate(address delegatee) public override;
+contract FluxionGovernanceToken is
+  ERC20,
+  ERC20Votes,
+  ERC20Permit,
+  AccessControl
+{
+  function stake(uint256 amount) external;
+  function unstake(uint256 amount) external;
+  function delegate(address delegatee) public override;
 }
 ```
 

@@ -283,37 +283,41 @@ slither code/blockchain/contracts/
 // SPDX-License-Identifier: AGPL-3.0
 pragma solidity 0.8.19;
 
-import '@openzeppelin/contracts/security/ReentrancyGuard.sol';
-import '@openzeppelin/contracts/access/AccessControl.sol';
+import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
+import "@openzeppelin/contracts/access/AccessControl.sol";
 
 /**
  * @title FluxionPool
  * @dev Manages liquidity pool with multi-asset support
  */
 contract FluxionPool is AccessControl, ReentrancyGuard {
-    bytes32 public constant ADMIN_ROLE = keccak256('ADMIN_ROLE');
+  bytes32 public constant ADMIN_ROLE = keccak256("ADMIN_ROLE");
 
-    /// @notice Pool configuration structure
-    struct PoolConfig {
-        address[] assets;
-        uint256[] weights;
-        uint256 fee;
-        bool active;
-    }
+  /// @notice Pool configuration structure
+  struct PoolConfig {
+    address[] assets;
+    uint256[] weights;
+    uint256 fee;
+    bool active;
+  }
 
-    /// @notice Emitted when liquidity is added
-    event LiquidityAdded(address indexed provider, uint256 amount, uint256 lpTokens);
+  /// @notice Emitted when liquidity is added
+  event LiquidityAdded(
+    address indexed provider,
+    uint256 amount,
+    uint256 lpTokens
+  );
 
-    /**
-     * @notice Add liquidity to the pool
-     * @param amounts Asset amounts to deposit
-     * @return lpTokens LP tokens minted
-     */
-    function addLiquidity(
-        uint256[] calldata amounts
-    ) external nonReentrant returns (uint256 lpTokens) {
-        // Implementation
-    }
+  /**
+   * @notice Add liquidity to the pool
+   * @param amounts Asset amounts to deposit
+   * @return lpTokens LP tokens minted
+   */
+  function addLiquidity(
+    uint256[] calldata amounts
+  ) external nonReentrant returns (uint256 lpTokens) {
+    // Implementation
+  }
 }
 ```
 
@@ -444,27 +448,27 @@ forge coverage
 // SPDX-License-Identifier: AGPL-3.0
 pragma solidity 0.8.19;
 
-import 'forge-std/Test.sol';
-import '../contracts/LiquidityPool.sol';
+import "forge-std/Test.sol";
+import "../contracts/LiquidityPool.sol";
 
 contract LiquidityPoolTest is Test {
-    LiquidityPool public pool;
+  LiquidityPool public pool;
 
-    function setUp() public {
-        pool = new LiquidityPool();
-    }
+  function setUp() public {
+    pool = new LiquidityPool();
+  }
 
-    function testAddLiquidity() public {
-        uint256 amount = 1000e18;
+  function testAddLiquidity() public {
+    uint256 amount = 1000e18;
 
-        vm.expectEmit(true, false, false, true);
-        emit LiquidityAdded(address(this), amount, amount);
+    vm.expectEmit(true, false, false, true);
+    emit LiquidityAdded(address(this), amount, amount);
 
-        uint256 lpTokens = pool.addLiquidity(amount);
+    uint256 lpTokens = pool.addLiquidity(amount);
 
-        assertEq(lpTokens, amount);
-        assertEq(pool.balanceOf(address(this)), amount);
-    }
+    assertEq(lpTokens, amount);
+    assertEq(pool.balanceOf(address(this)), amount);
+  }
 }
 ```
 
