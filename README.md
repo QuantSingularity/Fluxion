@@ -12,8 +12,6 @@ Fluxion is a cutting-edge synthetic asset liquidity engine that leverages zero-k
   <img src="docs/images/Fluxion_dashboard.bmp" alt="Fluxion Dashboard" width="80%">
 </div>
 
-> **Note**: This project is under active development. Features and functionalities are continuously being enhanced to improve synthetic asset liquidity and cross-chain capabilities.
-
 ---
 
 ## Table of Contents
