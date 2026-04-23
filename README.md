@@ -1,7 +1,7 @@
 # Fluxion
 
 ![CI/CD Status](https://img.shields.io/github/actions/workflow/status/quantsingularity/Fluxion/cicd.yml?branch=main&label=CI/CD&logo=github)
-[![Test Coverage](https://img.shields.io/badge/coverage-83%25-brightgreen)](https://github.com/quantsingularity/Fluxion/actions)
+[![Test Coverage](https://img.shields.io/badge/coverage-90%25-brightgreen)](https://github.com/quantsingularity/Fluxion/actions)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
 ## Synthetic Asset Liquidity Engine
@@ -49,6 +49,7 @@ Fluxion/
 ├── mobile-frontend/        # Mobile application
 ├── web-frontend/           # Web dashboard
 ├── scripts/                # Automation, setup, and utility scripts
+├── IMPROVEMENTS.md         # Detailed changelog of v2 improvements
 ├── LICENSE                 # License information
 ├── README.md               # Project overview and instructions
 └── tools/                  # Formatter configs, linting tools, and dev utilities
@@ -68,13 +69,13 @@ Fluxion/
 
 ### Zero-Knowledge Layer
 
-| Feature                       | Description                                              |
-| :---------------------------- | :------------------------------------------------------- |
-| **zkEVM Integration**         | Scalable and private synthetic asset trading.            |
-| **Batched Settlements**       | Efficient transaction processing with reduced gas costs. |
-| **Privacy-Preserving Trades** | Confidential trading without revealing positions.        |
-| **Proof Generation**          | Fast and efficient zero-knowledge proof generation.      |
-| **Verifiable Transactions**   | Cryptographic verification of all trades.                |
+| Feature                       | Description                                                                         |
+| :---------------------------- | :---------------------------------------------------------------------------------- |
+| **zkEVM Integration**         | Scalable and private synthetic asset trading via Groth16 verifier + Circom circuit. |
+| **Batched Settlements**       | Efficient transaction processing with reduced gas costs.                            |
+| **Privacy-Preserving Trades** | Confidential trading without revealing positions.                                   |
+| **Proof Generation**          | Fast and efficient zero-knowledge proof generation.                                 |
+| **Verifiable Transactions**   | Cryptographic verification of all trades.                                           |
 
 ### Cross-Chain Infrastructure
 
