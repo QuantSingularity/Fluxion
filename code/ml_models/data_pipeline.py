@@ -6,8 +6,8 @@ DeFi time-series data feeding into the Fluxion ML models.
 
 Key responsibilities
 ────────────────────
-  1. Raw ingestion — accepts either a list-of-dicts or a DataFrame.
-  2. Cleaning       — removes zero-price / zero-volume rows, forward-fills
+  1. Raw ingestion - accepts either a list-of-dicts or a DataFrame.
+  2. Cleaning       - removes zero-price / zero-volume rows, forward-fills
                       missing oracle prices, clips extreme outliers.
   3. Feature engineering
        • Price features  : velocity (1-period return), log-return,
@@ -20,12 +20,12 @@ Key responsibilities
                            built from the input pool, rolling beta estimate.
        • Temporal        : hour-of-day, day-of-week, is_weekend one-hots
                            (DeFi activity is strongly time-dependent).
-  4. Normalisation    — RobustScaler (median / IQR) for continuous features;
+  4. Normalisation    - RobustScaler (median / IQR) for continuous features;
                         MinMaxScaler for bounded ratios; passthrough for
                         one-hot flags.
-  5. Train / val split — chronological (no leakage) with a configurable
+  5. Train / val split - chronological (no leakage) with a configurable
                          validation fraction and an optional holdout window.
-  6. Sequence builder  — converts the flat feature matrix into overlapping
+  6. Sequence builder  - converts the flat feature matrix into overlapping
                          (seq_len, n_features) windows for LSTM / Transformer
                          models, yielding (X, y) tensors.
 """
@@ -122,12 +122,12 @@ _MINMAX_FEATURES = [
     "pool_utilisation",
 ]
 
-# Binary / one-hot flags — passed through unchanged
+# Binary / one-hot flags - passed through unchanged
 _PASSTHROUGH_FEATURES = [
     "is_weekend",
 ]
 
-# Temporal cyclical encodings — passed through unchanged
+# Temporal cyclical encodings - passed through unchanged
 _CYCLICAL_FEATURES = [
     "hour_sin",
     "hour_cos",
@@ -215,7 +215,7 @@ class DataPipeline:
         X, y = self._make_windows(features_df, target_col)
         if len(X) == 0:
             raise ValueError(
-                "No sequences could be built — check seq_len vs data length"
+                "No sequences could be built - check seq_len vs data length"
             )
 
         n = len(X)
@@ -227,7 +227,7 @@ class DataPipeline:
         X_val, y_val = X[n_train : n_train + n_val], y[n_train : n_train + n_val]
 
         logger.info(
-            "Sequences — train: %d, val: %d, holdout: %d",
+            "Sequences - train: %d, val: %d, holdout: %d",
             n_train,
             n_val,
             n_hld,
@@ -349,7 +349,7 @@ class DataPipeline:
         out["liquidity_zscore_30"] = (l - liq_roll_mean) / liq_roll_std
 
         # Proxy: volume / liquidity (capped at 1). Used wherever the raw
-        # pool_utilisation column is absent or NaN — _ingest adds optional
+        # pool_utilisation column is absent or NaN - _ingest adds optional
         # columns as all-NaN, so a simple presence check would keep an
         # all-NaN column and the final dropna would discard every row.
         util_proxy = (v / l.replace(0, np.nan)).clip(0, 1)

@@ -59,7 +59,7 @@ const CreatePool = () => {
   // Registry of real on-chain token + oracle addresses this form can use.
   // See lib/assets.js: falls back to a verified Ethereum Mainnet reference
   // set unless VITE_ASSET_REGISTRY_JSON configures this deployment's real
-  // addresses — only tokens with a verified oracle address are offered
+  // addresses - only tokens with a verified oracle address are offered
   // here, since createPool requires one oracle per asset.
   const { assets: assetRegistry, isMainnetReference } = getAssetRegistry();
   const availableTokens = assetRegistry.filter((a) => a.oracle);
@@ -200,7 +200,7 @@ const CreatePool = () => {
   };
 
   // Create pool on-chain via LiquidityPoolManager.createPool. Requires
-  // POOL_ADMIN_ROLE on the connected wallet — see web3-config.jsx.
+  // POOL_ADMIN_ROLE on the connected wallet - see web3-config.jsx.
   const createPool = async () => {
     const resolved = assets.map((a) =>
       availableTokens.find((t) => t.symbol === a.token),
@@ -257,7 +257,7 @@ const CreatePool = () => {
   };
 
   // Calculate total value (illustrative USD estimate for the form's sizing
-  // display only — not used in the on-chain call, and not a live price feed).
+  // display only - not used in the on-chain call, and not a live price feed).
   const calculateTotalValue = () => {
     const illustrativeUsdEstimate = {
       WETH: 1700,
@@ -707,7 +707,7 @@ const CreatePool = () => {
             {isConnected && availableTokens.length < 2 && (
               <Text fontSize="sm" color="red.300" textAlign="center" mt={2}>
                 This deployment's asset registry has fewer than 2 tokens with a
-                configured oracle — pools can't be created yet.
+                configured oracle - pools can't be created yet.
               </Text>
             )}
 

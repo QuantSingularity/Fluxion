@@ -193,7 +193,7 @@ const DEMO_POSITIONS = [
 ];
 // the existing cards/table expect. Fields with no on-chain source (TVL,
 // 24h volume/change, collateralization ratio at the asset level rather
-// than per-position) are shown as "—" rather than fabricated, since
+// than per-position) are shown as "-" rather than fabricated, since
 // getting them for real needs a subgraph indexer this project doesn't have
 // wired up yet.
 function normalizeOnChainAsset(asset) {
@@ -204,11 +204,11 @@ function normalizeOnChainAsset(asset) {
     name: asset.label,
     baseAsset: asset.label.replace(/^s/, ""),
     price: `$${priceNum.toLocaleString(undefined, { maximumFractionDigits: 2 })}`,
-    priceChange: "—",
+    priceChange: "-",
     isUp: true,
-    tvl: "—",
-    volume24h: "—",
-    collateralization: "—",
+    tvl: "-",
+    volume24h: "-",
+    collateralization: "-",
     description: `Synthetic asset tracked via Chainlink oracle. Collateral token: ${asset.collateralToken.slice(0, 10)}...`,
     active: asset.active,
     isDemo: false,
@@ -248,7 +248,7 @@ const Synthetics = () => {
   const [isLoadingAssets, setIsLoadingAssets] = useState(false);
 
   // Real positions for the connected wallet, one getPosition call per
-  // listed synthetic asset — this works from live contract reads alone, no
+  // listed synthetic asset - this works from live contract reads alone, no
   // subgraph needed, unlike TVL/volume history or a holders list.
   const [userPositions, setUserPositions] = useState([]);
   const [isLoadingPositions, setIsLoadingPositions] = useState(false);
@@ -344,7 +344,7 @@ const Synthetics = () => {
       description:
         `${synthetic.name} can be minted against collateral, but there's ` +
         "no on-chain swap function for synthetic assets in this protocol " +
-        "yet — only isolated mint/burn/liquidate.",
+        "yet - only isolated mint/burn/liquidate.",
       status: "info",
       duration: 6000,
       isClosable: true,
@@ -356,7 +356,7 @@ const Synthetics = () => {
       toast({
         title: "Demo asset",
         description:
-          "This is placeholder data — no real synthetic asset is " +
+          "This is placeholder data - no real synthetic asset is " +
           "registered for it on-chain yet.",
         status: "warning",
         duration: 5000,
@@ -520,7 +520,7 @@ const Synthetics = () => {
           <Text fontSize="sm" color="yellow.200">
             {isLoadingAssets
               ? "Loading assets from chain..."
-              : "Showing demo data — connect a wallet or check the RPC connection to see real registered synthetic assets."}
+              : "Showing demo data - connect a wallet or check the RPC connection to see real registered synthetic assets."}
           </Text>
         </Box>
       )}
@@ -809,7 +809,7 @@ const Synthetics = () => {
               <TabPanel px={0}>
                 {!isLiveData && userPositions.length > 0 && (
                   <Text fontSize="sm" color="yellow.300" mb={4}>
-                    Showing demo positions — connect a wallet on a network with
+                    Showing demo positions - connect a wallet on a network with
                     real registered synthetic assets to see your actual
                     positions.
                   </Text>

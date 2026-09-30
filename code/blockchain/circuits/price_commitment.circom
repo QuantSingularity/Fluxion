@@ -9,17 +9,17 @@ pragma circom 2.1.6;
  *
  * Public inputs (revealed to the verifier / on-chain)
  * ────────────────────────────────────────────────────
- *   commitCollateral  — Poseidon hash of (collateral_amount, salt)
- *   commitPrice       — Poseidon hash of (oracle_price_18dec, salt)
- *   syntheticDebt     — Outstanding synthetic-token debt (publicly known)
- *   minCRbps          — Minimum collateral-ratio in BPS (e.g. 15000 = 150 %)
+ *   commitCollateral  - Poseidon hash of (collateral_amount, salt)
+ *   commitPrice       - Poseidon hash of (oracle_price_18dec, salt)
+ *   syntheticDebt     - Outstanding synthetic-token debt (publicly known)
+ *   minCRbps          - Minimum collateral-ratio in BPS (e.g. 15000 = 150 %)
  *
  * Private inputs (kept secret)
  * ────────────────────────────
- *   collateralAmount  — Raw collateral units (integer, scaled ×1e6 for USDC)
- *   oraclePrice18     — Collateral price in USD (18-decimal integer)
- *   saltCollateral    — Random 128-bit blinding factor for commitCollateral
- *   saltPrice         — Random 128-bit blinding factor for commitPrice
+ *   collateralAmount  - Raw collateral units (integer, scaled ×1e6 for USDC)
+ *   oraclePrice18     - Collateral price in USD (18-decimal integer)
+ *   saltCollateral    - Random 128-bit blinding factor for commitCollateral
+ *   saltPrice         - Random 128-bit blinding factor for commitPrice
  *
  * Constraints proved
  * ──────────────────
@@ -31,7 +31,7 @@ pragma circom 2.1.6;
  *
  * Notes
  * ─────
- *   • Poseidon is the preferred ZK-friendly hash — constant-time, cheap
+ *   • Poseidon is the preferred ZK-friendly hash - constant-time, cheap
  *     in R1CS/Plonk arithmetisation.
  *   • Division in ZK circuits is implemented as a range-checked
  *     multiplication inverse (see DivChecked component below).

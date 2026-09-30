@@ -98,7 +98,7 @@ class TestPoseidonHasher:
         (the actual reference implementation price_commitment.circom's
         `include ".../poseidon.circom"` compiles against). If this test
         passes, PoseidonHasher is bit-for-bit compatible with what the
-        deployed circuit computes internally — i.e. commitments built here
+        deployed circuit computes internally - i.e. commitments built here
         will actually satisfy the circuit's `hashC.out === commitCollateral`
         constraint. If it ever fails, treat it as a release blocker: any
         proof built against a mismatched hash will never verify on-chain.
@@ -262,7 +262,7 @@ class TestVerifyCRInputs:
         )
 
     def test_exactly_at_min_cr_passes(self):
-        # CR = 1500 / 1000 × 10000 = 15 000 bps — boundary should pass
+        # CR = 1500 / 1000 × 10000 = 15 000 bps - boundary should pass
         assert verify_cr_inputs(
             collateral_amount=1_500_000_000,
             oracle_price_18=1_000_000_000_000_000_000,

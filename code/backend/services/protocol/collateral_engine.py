@@ -5,7 +5,7 @@ Pure-Python implementation of the Fluxion synthetic-asset collateralisation
 rules. Position/mint/burn accounting (get_collateral_ratio, mint, burn,
 stability fee) mirrors SyntheticAssetFactory.sol's own math; the tiered
 liquidation bonus (SOFT/HARD/CRIT) mirrors SyntheticLiquidationEngine.sol's
-_computeBonus specifically — the vault contract's own direct liquidate()
+_computeBonus specifically - the vault contract's own direct liquidate()
 path uses a single flat LIQ_BONUS (5%) instead, since it has no tiering.
 This module intentionally mirrors the engine's richer tiered behavior, as
 that's the liquidation path the protocol's keeper bot actually drives.
@@ -197,9 +197,9 @@ class CollateralEngine:
 
         Raises
         ──────
-        PriceStaleError            — oracle price too old.
-        InsufficientCollateralError — resulting CR < MIN_CR.
-        ValueError                 — zero amounts.
+        PriceStaleError            - oracle price too old.
+        InsufficientCollateralError - resulting CR < MIN_CR.
+        ValueError                 - zero amounts.
         """
         if collateral <= 0:
             raise ValueError("collateral must be > 0")
@@ -230,7 +230,7 @@ class CollateralEngine:
             pos.collateral_deposited -= collateral
             pos.synthetic_minted -= synthetic
             raise InsufficientCollateralError(
-                f"CR {cr:.0f} bps < MIN_CR {MIN_CR_BPS} bps — "
+                f"CR {cr:.0f} bps < MIN_CR {MIN_CR_BPS} bps - "
                 f"deposit more collateral or mint fewer tokens"
             )
         return pos
@@ -250,8 +250,8 @@ class CollateralEngine:
 
         Raises
         ──────
-        PositionNotFoundError — position does not exist.
-        ValueError            — burn exceeds minted amount.
+        PositionNotFoundError - position does not exist.
+        ValueError            - burn exceeds minted amount.
         """
         key = (asset_id, user)
         if key not in self._positions:
@@ -299,9 +299,9 @@ class CollateralEngine:
 
         Raises
         ──────
-        PriceStaleError       — oracle price too old.
-        ValueError            — position healthy, or debt_repaid > 50 % cap.
-        PositionNotFoundError — position not found.
+        PriceStaleError       - oracle price too old.
+        ValueError            - position healthy, or debt_repaid > 50 % cap.
+        PositionNotFoundError - position not found.
         """
         self._assert_price_fresh(asset_id)
 

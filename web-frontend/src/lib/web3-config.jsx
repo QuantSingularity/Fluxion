@@ -12,7 +12,7 @@ import { env } from "./env";
  * ABI for LiquidityPoolManager.sol.
  *
  * Must match code/blockchain/contracts/LiquidityPoolManager.sol exactly.
- * `createPool` is gated by POOL_ADMIN_ROLE on-chain — calls from a wallet
+ * `createPool` is gated by POOL_ADMIN_ROLE on-chain - calls from a wallet
  * that doesn't hold that role will revert; see createPool() below for how
  * that's surfaced to the caller.
  */
@@ -88,7 +88,7 @@ export function Web3Provider({ children }) {
       const poolManager = getPoolManagerContract(prov);
       // "factory" kept as an alias for the same pool manager contract for
       // backward compatibility with any existing callers; there is only one
-      // real contract here (LiquidityPoolManager.sol) — SyntheticAssetFactory
+      // real contract here (LiquidityPoolManager.sol) - SyntheticAssetFactory
       // integration lives separately in pages/synthetics.js since it has an
       // entirely different ABI and isn't a pool manager.
       setContracts({ poolManager, factory: poolManager });
@@ -247,7 +247,7 @@ export function Web3Provider({ children }) {
   /**
    * Create a pool on-chain via LiquidityPoolManager.createPool.
    *
-   * Requires the connected wallet to hold POOL_ADMIN_ROLE — this is an
+   * Requires the connected wallet to hold POOL_ADMIN_ROLE - this is an
    * admin-gated operation on-chain, not something any connected wallet can
    * do, so callers should expect and surface the revert this throws for a
    * non-admin wallet.

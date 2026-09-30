@@ -82,7 +82,7 @@ const SyntheticsScreen = () => {
 
   const handleTrade = (asset) => {
     // There's no on-chain swap/DEX function for synthetic assets in this
-    // protocol yet — only isolated mint/burn/liquidate on
+    // protocol yet - only isolated mint/burn/liquidate on
     // SyntheticAssetFactory.sol. Being upfront about that here rather than
     // silently doing nothing when tapped.
     Alert.alert(
@@ -122,7 +122,7 @@ const SyntheticsScreen = () => {
         </Text>
         {!isLive ? (
           <Text style={styles.demoNotice}>
-            Showing demo data — live prices unavailable right now.
+            Showing demo data - live prices unavailable right now.
           </Text>
         ) : null}
       </View>

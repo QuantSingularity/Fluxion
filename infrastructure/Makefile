@@ -20,7 +20,7 @@ init-dirs: ## Create required local data directories
 	@echo "✓ Directories created"
 
 up: init-dirs ## Start all services
-	@[ -f $(ENV_FILE) ] || (cp .env.example $(ENV_FILE) && echo "⚠  Created .env from .env.example — please review before running again")
+	@[ -f $(ENV_FILE) ] || (cp .env.example $(ENV_FILE) && echo "⚠  Created .env from .env.example - please review before running again")
 	$(COMPOSE) up -d
 
 down: ## Stop all services

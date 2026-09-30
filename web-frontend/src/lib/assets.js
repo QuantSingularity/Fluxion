@@ -2,10 +2,10 @@
  * Token / price-feed registry for pool creation and synthetic asset UI.
  *
  * IMPORTANT: this app's contracts (FACTORY_ADDRESS, POOL_MANAGER_ADDRESS in
- * env.js) can be deployed to any network — mainnet, a testnet, or a local
- * Anvil/Hardhat chain — and that choice isn't hardcoded anywhere else in
+ * env.js) can be deployed to any network - mainnet, a testnet, or a local
+ * Anvil/Hardhat chain - and that choice isn't hardcoded anywhere else in
  * this codebase. Hardcoding real Ethereum mainnet token addresses as the
- * *default* registry would be actively wrong (and dangerous — silent calls
+ * *default* registry would be actively wrong (and dangerous - silent calls
  * to unrelated contracts at those addresses) on any other network. So:
  *
  *   - `getAssetRegistry()` first checks VITE_ASSET_REGISTRY_JSON, a
@@ -13,7 +13,7 @@
  *     as VITE_FACTORY_ADDRESS / VITE_POOL_MANAGER_ADDRESS in env.js).
  *   - If unset, it falls back to `MAINNET_REFERENCE_ASSETS` below, but only
  *     as an opt-in convenience surfaced in the UI as "Ethereum Mainnet
- *     reference — verify these match your connected network" — never
+ *     reference - verify these match your connected network" - never
  *     silently assumed to be correct for whatever chain the wallet is
  *     actually on.
  *
@@ -28,7 +28,7 @@
  *
  * MAINNET_REFERENCE_ASSETS only includes entries independently verified
  * against Etherscan (tokens) and Chainlink's own data.chain.link pages
- * (price feeds) at the time this was written — deliberately incomplete
+ * (price feeds) at the time this was written - deliberately incomplete
  * rather than including anything unverified.
  */
 
@@ -101,7 +101,7 @@ export function getAssetRegistry(options = {}) {
     console.warn(
       "VITE_ASSET_REGISTRY_JSON is not configured for this deployment; " +
         "falling back to Ethereum Mainnet reference addresses. These will " +
-        "be WRONG if this app is connected to a testnet or local chain — " +
+        "be WRONG if this app is connected to a testnet or local chain - " +
         "set VITE_ASSET_REGISTRY_JSON to your deployment's real token and " +
         "oracle addresses before creating pools or synthetic assets.",
     );

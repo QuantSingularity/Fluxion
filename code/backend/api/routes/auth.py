@@ -16,8 +16,8 @@ security = HTTPBearer(auto_error=False)
 # Module-level singletons.
 #
 # These services keep their state (registered users, sessions, token
-# blacklists) in memory. Instantiating them per request — as the previous
-# `return UserService()` factories did — meant a user registered in one
+# blacklists) in memory. Instantiating them per request - as the previous
+# `return UserService()` factories did - meant a user registered in one
 # request no longer existed by the time the login request arrived, and
 # revoked tokens were never actually revoked.
 _jwt_service = JWTService()
@@ -73,7 +73,7 @@ async def get_current_user(
     except HTTPException:
         raise
     except Exception:
-        # Blacklist backend unavailable — fall through with a valid signature.
+        # Blacklist backend unavailable - fall through with a valid signature.
         pass
     # Tokens minted by create_token_pair carry the user id in the standard
     # "sub" claim only; downstream routes read current_user["user_id"], which

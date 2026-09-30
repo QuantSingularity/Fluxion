@@ -33,7 +33,7 @@ jest.mock("../lib/assets", () => ({
         oracleHeartbeatSeconds: 3600,
       },
       {
-        // No verified oracle — should be excluded from the dropdown
+        // No verified oracle - should be excluded from the dropdown
         // entirely, since createPool requires one oracle per asset.
         symbol: "USDC",
         address: "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",

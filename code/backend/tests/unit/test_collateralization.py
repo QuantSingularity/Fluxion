@@ -89,11 +89,11 @@ class TestMint:
         # collateral = 3000 USDC, synthetic = 1000 tokens
         # collateralUSD = 3000 × 100 / 1 = 300 000
         # syntheticUSD  = 1000 × 1 (peg)
-        # CR = 300 000 / 1000 × 10 000 = wait — let's keep units consistent:
+        # CR = 300 000 / 1000 × 10 000 = wait - let's keep units consistent:
         # price = 100 USD per collateral token
         # collateralUSD = 3000 × 100 = 300 000 USD
         # syntheticUSD  = 1 000 USD   (synthetic = stablecoin proxy)
-        # CR = 300 000 / 1 000 × BPS = 3 000 000 bps — well above 15 000
+        # CR = 300 000 / 1 000 × BPS = 3 000 000 bps - well above 15 000
         # For a tighter test: collateral=15, synthetic=1000, price=1
         engine2 = CollateralEngine()
         engine2.update_price(ASSET_ID, 1.0, time.time())
@@ -112,7 +112,7 @@ class TestMint:
     def test_mint_at_exactly_min_cr(self):
         engine = CollateralEngine()
         engine.update_price(ASSET_ID, 1.0, time.time())
-        # CR = 1500 / 1000 × 10000 = 15 000 bps == MIN_CR — should succeed
+        # CR = 1500 / 1000 × 10000 = 15 000 bps == MIN_CR - should succeed
         engine.mint(ASSET_ID, USER_ADDR, collateral=1500.0, synthetic=1000.0)
         pos = engine.get_position(ASSET_ID, USER_ADDR)
         assert pos.synthetic_minted == pytest.approx(1000.0)
@@ -218,7 +218,7 @@ class TestStabilityFee:
         engine = CollateralEngine()
         engine.update_price(ASSET_ID, 1.0, time.time())
         engine.mint(ASSET_ID, USER_ADDR, collateral=100.0, synthetic=66.0)
-        # Simulate 1000 years of elapsed time — fee should be capped
+        # Simulate 1000 years of elapsed time - fee should be capped
         engine._positions[(ASSET_ID, USER_ADDR)].fee_timestamp -= 365 * 24 * 3600 * 1000
         engine._accrue_stability_fee(ASSET_ID, USER_ADDR)
         pos = engine.get_position(ASSET_ID, USER_ADDR)

@@ -8,7 +8,7 @@ from __future__ import annotations
 
 import os
 
-# The data_pipeline lives in code/ml_models — add it to sys.path via conftest
+# The data_pipeline lives in code/ml_models - add it to sys.path via conftest
 import sys
 from datetime import datetime, timedelta, timezone
 from typing import List
@@ -95,7 +95,7 @@ class TestIngestion:
             pipeline.transform({"price": 100})  # dict, not list/DataFrame
 
     def test_timestamp_parsing(self, pipeline, raw_data):
-        # Convert timestamps to string — pipeline should parse them
+        # Convert timestamps to string - pipeline should parse them
         str_rows = [{**r, "timestamp": r["timestamp"].isoformat()} for r in raw_data]
         df = pipeline.transform(str_rows)
         assert pd.api.types.is_datetime64_any_dtype(df.index)
@@ -268,7 +268,7 @@ class TestSequenceBuilding:
             assert not np.isnan(arr).any()
 
     def test_chronological_split_no_leakage(self, pipeline, raw_data):
-        """Train indices must precede val indices — no temporal leakage."""
+        """Train indices must precede val indices - no temporal leakage."""
         df = pipeline.transform(raw_data)
         n = len(df)
         cfg = pipeline.config
@@ -348,5 +348,5 @@ class TestConfigVariations:
         t0 = time.time()
         df = p.transform(rows)
         elapsed = time.time() - t0
-        assert elapsed < 10.0, f"Pipeline took {elapsed:.1f}s — too slow"
+        assert elapsed < 10.0, f"Pipeline took {elapsed:.1f}s - too slow"
         assert len(df) > 100

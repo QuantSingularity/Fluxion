@@ -1348,15 +1348,15 @@ class _RiskManagementExtensions:
             )
         if portfolio_risk.volatility > 0.3:
             suggestions.append(
-                "High volatility detected — consider adding stable assets or hedges"
+                "High volatility detected - consider adding stable assets or hedges"
             )
         if portfolio_risk.var_95 > 0.1:
             suggestions.append(
-                "VaR exceeds recommended threshold — reduce position sizes"
+                "VaR exceeds recommended threshold - reduce position sizes"
             )
         if portfolio_risk.sharpe_ratio < 1.0:
             suggestions.append(
-                "Low Sharpe ratio — review asset selection for better risk-adjusted returns"
+                "Low Sharpe ratio - review asset selection for better risk-adjusted returns"
             )
         if not suggestions:
             suggestions.append("Portfolio risk metrics are within acceptable ranges")
@@ -1365,7 +1365,7 @@ class _RiskManagementExtensions:
     async def _get_market_data(
         self, db: "AsyncSession", portfolio_id: "UUID"
     ) -> Dict[str, Any]:
-        """Fetch market data (stub — override in production)."""
+        """Fetch market data (stub - override in production)."""
         return {
             "volatility_index": 0.2,
             "correlation_matrix": [[1.0, 0.5], [0.5, 1.0]],
@@ -1376,7 +1376,7 @@ class _RiskManagementExtensions:
     async def _get_credit_data(
         self, db: "AsyncSession", user_id: "UUID"
     ) -> Dict[str, Any]:
-        """Fetch credit data (stub — override in production)."""
+        """Fetch credit data (stub - override in production)."""
         return {
             "credit_score": 700,
             "debt_to_income": 0.3,
@@ -1387,7 +1387,7 @@ class _RiskManagementExtensions:
     async def _get_liquidity_data(
         self, db: "AsyncSession", portfolio_id: "UUID"
     ) -> Dict[str, Any]:
-        """Fetch liquidity data (stub — override in production)."""
+        """Fetch liquidity data (stub - override in production)."""
         return {}
 
     async def _get_real_time_market_data(self, portfolio_id: "UUID") -> Dict[str, Any]:

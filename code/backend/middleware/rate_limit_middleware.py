@@ -237,7 +237,7 @@ class RateLimitMiddleware(BaseHTTPMiddleware):
         """Get endpoint key for rate limiting.
 
         Returns the bare URL path so it matches the keys used in
-        ``self.endpoint_rules`` — the previous "METHOD:path" format never
+        ``self.endpoint_rules`` - the previous "METHOD:path" format never
         matched any configured rule, so per-endpoint limits (login,
         register, password reset) were silently skipped.
         """
@@ -311,7 +311,7 @@ class RateLimitMiddleware(BaseHTTPMiddleware):
                     self.violation_counts[key] - 5
                 )
                 # Store the block under the bare identifier (IP or user id),
-                # not the prefixed bucket key — _check_rate_limits looks up
+                # not the prefixed bucket key - _check_rate_limits looks up
                 # blocked_ips by client IP, so blocks stored under
                 # "ip:1.2.3.4" were never enforced.
                 identifier = key.split(":", 1)[1] if ":" in key else key

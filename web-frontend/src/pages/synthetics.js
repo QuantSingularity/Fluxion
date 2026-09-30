@@ -5,7 +5,7 @@ import { env, ZERO_ADDRESS as ZERO } from "../lib/env";
  * ABI for SyntheticAssetFactory.sol.
  *
  * This must match code/blockchain/contracts/SyntheticAssetFactory.sol
- * exactly — asset ids are `bytes32` (not `string`), and every position
+ * exactly - asset ids are `bytes32` (not `string`), and every position
  * operation (mint/burn/liquidate) takes the numeric collateral/synthetic
  * amounts as raw uint256 (wei-scale, 18 decimals), not human-readable
  * numbers. Callers are responsible for converting with `ethers.parseUnits`
@@ -49,12 +49,12 @@ function getFactoryContract(providerOrSigner) {
 }
 
 /**
- * Register a new synthetic asset type. Owner-only on-chain — will revert
+ * Register a new synthetic asset type. Owner-only on-chain - will revert
  * for any other caller.
  *
  * @param {ethers.BrowserProvider} provider
  * @param {{assetId: string, collateralToken: string, priceOracle: string, clOracle: string, clJobId: string, clFee: bigint|number|string}} params
- *   assetId/clJobId are bytes32 — pass a 32-byte hex string, or use
+ *   assetId/clJobId are bytes32 - pass a 32-byte hex string, or use
  *   ethers.encodeBytes32String(...) for short human-readable ids.
  */
 export async function createSyntheticAsset(provider, params) {
@@ -216,7 +216,7 @@ export function decodeAssetIdLabel(assetId) {
 
 /**
  * Enumerate every synthetic asset actually registered on-chain, using the
- * factory's public `assetIds` array and `syntheticAssets` mapping — no
+ * factory's public `assetIds` array and `syntheticAssets` mapping - no
  * subgraph or off-chain indexer needed. This is real on-chain state, unlike
  * any hardcoded/demo asset list a page might otherwise show.
  *

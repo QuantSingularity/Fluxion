@@ -30,14 +30,14 @@ fi
 if command -v docker &>/dev/null && docker compose version &>/dev/null 2>&1; then
   pass "Docker Compose v2 is available"
 elif command -v docker-compose &>/dev/null; then
-  warn "Only docker-compose v1 found — recommend upgrading to Docker Compose v2"
+  warn "Only docker-compose v1 found - recommend upgrading to Docker Compose v2"
 else
   fail "Docker Compose is not installed"
 fi
 
 if [ -f "docker-compose.yml" ]; then
   if ! command -v docker &>/dev/null; then
-    warn "Skipping docker-compose.yml validation — Docker not installed"
+    warn "Skipping docker-compose.yml validation - Docker not installed"
   elif docker compose config -q 2>/dev/null; then
     pass "docker-compose.yml is valid"
   else
@@ -51,10 +51,10 @@ if [ -f ".env" ]; then
   pass ".env file exists"
   # Check for placeholder values
   if grep -q "change-me" .env 2>/dev/null; then
-    warn ".env contains placeholder 'change-me' values — update before deploying"
+    warn ".env contains placeholder 'change-me' values - update before deploying"
   fi
 else
-  warn ".env file missing — copy from .env.example"
+  warn ".env file missing - copy from .env.example"
 fi
 
 # ── Terraform ─────────────────────────────────────────────────────────────────
@@ -71,7 +71,7 @@ if command -v terraform &>/dev/null; then
     fail "Terraform version ${TF_VER} < required ${REQUIRED_TF}"
   fi
 else
-  warn "Terraform is not installed — required for cloud provisioning"
+  warn "Terraform is not installed - required for cloud provisioning"
 fi
 
 if [ -d "terraform" ]; then
@@ -80,7 +80,7 @@ if [ -d "terraform" ]; then
     if terraform validate -no-color &>/dev/null 2>&1; then
       pass "Terraform configuration is valid"
     else
-      fail "Terraform validation failed — run: cd terraform && terraform validate"
+      fail "Terraform validation failed - run: cd terraform && terraform validate"
     fi
     cd ..
   fi
@@ -106,7 +106,7 @@ echo "▶ Ansible"
 if command -v ansible &>/dev/null; then
   pass "Ansible is installed ($(ansible --version | head -1))"
 else
-  warn "Ansible is not installed — required for server configuration"
+  warn "Ansible is not installed - required for server configuration"
 fi
 
 if command -v ansible-playbook &>/dev/null; then
@@ -135,7 +135,7 @@ echo "▶ Kubernetes"
 if command -v kubectl &>/dev/null; then
   pass "kubectl is installed"
 else
-  warn "kubectl is not installed — required for Kubernetes deployments"
+  warn "kubectl is not installed - required for Kubernetes deployments"
 fi
 
 if command -v kubectl &>/dev/null; then
@@ -194,7 +194,7 @@ done
 if [ -f ".gitignore" ] && grep -q "^\.env$" .gitignore 2>/dev/null; then
   pass ".env is in .gitignore"
 else
-  fail ".env is NOT in .gitignore — add it immediately"
+  fail ".env is NOT in .gitignore - add it immediately"
 fi
 
 # ── Summary ───────────────────────────────────────────────────────────────────
@@ -210,9 +210,9 @@ if [ $ERRORS -eq 0 ] && [ $WARNINGS -eq 0 ]; then
   echo -e "  ${GREEN}All checks passed!${NC}"
   exit 0
 elif [ $ERRORS -eq 0 ]; then
-  echo -e "  ${YELLOW}Passed with warnings — review before deploying.${NC}"
+  echo -e "  ${YELLOW}Passed with warnings - review before deploying.${NC}"
   exit 0
 else
-  echo -e "  ${RED}Validation failed — fix errors before deploying.${NC}"
+  echo -e "  ${RED}Validation failed - fix errors before deploying.${NC}"
   exit 1
 fi

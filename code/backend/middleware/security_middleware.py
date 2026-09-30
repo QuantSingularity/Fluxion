@@ -154,7 +154,7 @@ class SecurityMiddleware(BaseHTTPMiddleware):
                     raise HTTPException(status_code=403, detail="Access denied")
         except ValueError:
             logger.error(f"Invalid IP address format: {client_ip}")
-            # Non-routable / test client addresses — skip IP check rather than blocking
+            # Non-routable / test client addresses - skip IP check rather than blocking
 
     async def _check_suspicious_patterns(self, request: Request):
         """Check for suspicious patterns in request"""
@@ -183,7 +183,7 @@ class SecurityMiddleware(BaseHTTPMiddleware):
 
     async def _validate_csrf_token(self, request: Request):
         """Validate CSRF token for state-changing operations"""
-        # JSON API requests are protected by Bearer token — no CSRF needed
+        # JSON API requests are protected by Bearer token - no CSRF needed
         content_type = request.headers.get("content-type", "")
         if content_type.startswith("application/json"):
             return

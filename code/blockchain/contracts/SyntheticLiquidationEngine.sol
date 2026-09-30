@@ -15,7 +15,7 @@ import "./interfaces/IFluxionVault.sol";
  *
  * Design goals
  * ────────────
- *  • Decoupled from SyntheticAssetFactory — operates on any vault that
+ *  • Decoupled from SyntheticAssetFactory - operates on any vault that
  *    implements IFluxionVault (pluggable architecture).
  *  • Supports partial and full liquidations.
  *  • Three-tier incentive ladder rewards liquidators at different levels
@@ -156,7 +156,7 @@ contract SyntheticLiquidationEngine is AccessControl, ReentrancyGuard {
      *         batchLiquidate credit the keeper that triggered the batch
      *         (rather than this contract itself) as the liquidator.
      * @dev    Only callable by this contract, via the try/catch in
-     *         batchLiquidate below — try/catch requires an external call
+     *         batchLiquidate below - try/catch requires an external call
      *         boundary, so this can't just be the internal helper directly.
      *         The `msg.sender == address(this)` check is what prevents
      *         anyone else from spoofing an arbitrary `_liquidator` and
@@ -234,7 +234,7 @@ contract SyntheticLiquidationEngine is AccessControl, ReentrancyGuard {
 
         // The vault applies its own (generally more conservative) fixed
         // liquidation bonus, so it will not always hand over enough
-        // collateral to cover this engine's full tiered entitlement —
+        // collateral to cover this engine's full tiered entitlement -
         // e.g. a HARD/CRIT tier bonus (8%/10%) exceeding the vault's fixed
         // bonus. Never forward more than was actually received; the
         // insurance fund covers any shortfall between what this engine
@@ -246,7 +246,7 @@ contract SyntheticLiquidationEngine is AccessControl, ReentrancyGuard {
         }
 
         // Forward the seized collateral (received from the vault above) to
-        // the liquidator that triggered this call — the original keeper in
+        // the liquidator that triggered this call - the original keeper in
         // the batchLiquidate case, not this contract.
         if (totalSeize > 0) {
             collateralToken.safeTransfer(_liquidator, totalSeize);
@@ -347,7 +347,7 @@ contract SyntheticLiquidationEngine is AccessControl, ReentrancyGuard {
                     msg.sender
                 )
             {
-                // success — event emitted inside _liquidate()
+                // success - event emitted inside _liquidate()
             } catch {
                 // Swallow individual failures; log via subgraph / off-chain
             }

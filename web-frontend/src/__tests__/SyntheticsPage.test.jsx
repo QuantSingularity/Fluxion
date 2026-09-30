@@ -79,7 +79,7 @@ describe("Synthetics page", () => {
     renderPage();
 
     await waitFor(() =>
-      expect(screen.queryByText(/Showing demo data — connect/i)).toBeNull(),
+      expect(screen.queryByText(/Showing demo data - connect/i)).toBeNull(),
     );
     expect(screen.getAllByText("sETH").length).toBeGreaterThan(0);
     expect(screen.getByText("$1,700")).toBeInTheDocument();

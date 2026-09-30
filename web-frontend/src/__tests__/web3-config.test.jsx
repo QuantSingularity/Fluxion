@@ -31,7 +31,7 @@ jest.mock("ethers", () => {
     ...actual,
     // web3-config.jsx does `import { ethers } from "ethers"` and calls
     // `ethers.Contract` / `ethers.BrowserProvider` off that namespace
-    // object, not the package's top-level named exports — both need
+    // object, not the package's top-level named exports - both need
     // overriding for the mock to actually take effect.
     Contract: MockContract,
     BrowserProvider: MockBrowserProvider,
