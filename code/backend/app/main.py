@@ -17,6 +17,7 @@ from fastapi.responses import JSONResponse
 from middleware.rate_limit_middleware import RateLimitMiddleware
 from middleware.security_middleware import SecurityMiddleware
 from schemas.base import ErrorResponse, ValidationErrorResponse
+from services.ml import get_ml_gateway
 from starlette.exceptions import HTTPException as StarletteHTTPException
 
 # Configure logging
@@ -41,6 +42,11 @@ async def lifespan(app: FastAPI):
         await init_database()
         logger.info("Database initialized successfully")
 
+        try:
+            await get_ml_gateway().startup()
+        except Exception as ml_exc:
+            logger.error(f"ML gateway failed to start: {str(ml_exc)}")
+
         # Additional startup tasks can be added here
         # - Initialize Redis connection
         # - Start background tasks
@@ -59,7 +65,7 @@ async def lifespan(app: FastAPI):
     logger.info("Shutting down Fluxion backend application...")
 
     try:
-        # Close database connections
+        await get_ml_gateway().shutdown()
         await close_database()
         logger.info("Database connections closed")
 
@@ -265,6 +271,18 @@ async def health_check():
     }
 
 
+async def _ml_health():
+    try:
+        status = await get_ml_gateway().status()
+    except Exception as exc:
+        return {"status": "unavailable", "error": str(exc)}
+    return {
+        "status": "healthy" if status.get("ready") else "degraded",
+        "mode": status.get("mode"),
+        "missing": status.get("missing", []),
+    }
+
+
 @app.get("/health/detailed", tags=["Health"])
 async def detailed_health_check():
     """Detailed health check with service status"""
@@ -281,6 +299,8 @@ async def detailed_health_check():
     ):
         overall_status = "unhealthy"
 
+    ml_health = await _ml_health()
+
     return {
         "status": overall_status,
         "timestamp": time.time(),
@@ -289,6 +309,7 @@ async def detailed_health_check():
         "services": {
             "database_write": db_write_health,
             "database_read": db_read_health,
+            "ml": ml_health,
             # Add other service checks here
             # "redis": redis_health,
             # "blockchain": blockchain_health,

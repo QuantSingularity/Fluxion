@@ -6,6 +6,7 @@ from typing import Any, Dict
 
 from api.routes.auth import get_current_user
 from fastapi import APIRouter, Depends, Query
+from services.ml import MLError, get_ml_gateway
 
 router = APIRouter()
 
@@ -33,13 +34,39 @@ async def get_risk_analytics(
     current_user: Dict[str, Any] = Depends(get_current_user),
 ):
     """Get risk analytics for the authenticated user."""
+    risk_metrics: Dict[str, Any] = {}
+    alerts: list = []
+    ml_available = True
+    try:
+        overview = await get_ml_gateway().risk_overview()
+        risk_metrics = {
+            "overall_risk": overview["overall_risk"],
+            "risk_level": overview["risk_level"],
+            "factors": overview["factors"],
+            "factor_levels": overview["factor_levels"],
+            "data_source": overview["data_source"],
+        }
+        alerts = [
+            {
+                "entity_id": item["entity_id"],
+                "name": item["name"],
+                "factor": factor,
+                "level": level,
+            }
+            for item in overview["items"]
+            for factor, level in item["factor_levels"].items()
+            if level in ("high", "critical")
+        ]
+    except MLError:
+        ml_available = False
     return {
         "success": True,
         "data": {
             "user_id": current_user["user_id"],
             "period_days": days,
-            "risk_metrics": {},
-            "alerts": [],
+            "risk_metrics": risk_metrics,
+            "alerts": alerts,
+            "ml_available": ml_available,
         },
     }
 

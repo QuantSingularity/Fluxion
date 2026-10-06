@@ -42,7 +42,6 @@ api_router.include_router(analytics.router, prefix="/analytics", tags=["Analytic
 # Market data routes (pools, synthetics, assets) - public read access
 api_router.include_router(markets.router, prefix="/markets", tags=["Markets"])
 
-# ML prediction routes (energy forecast) - public
 api_router.include_router(ml.router, tags=["ML"])
 
 # Compliance and KYC routes

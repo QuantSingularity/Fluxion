@@ -3,6 +3,13 @@ import { fireEvent, render, screen } from "@testing-library/react";
 import { BrowserRouter } from "react-router-dom";
 import Analytics from "../pages/analytics/Analytics";
 
+jest.mock("../services/api", () => ({
+  mlAPI: {
+    getRiskOverview: jest.fn(() => new Promise(() => {})),
+    getPoolForecast: jest.fn(() => new Promise(() => {})),
+  },
+}));
+
 // Mock the recharts components
 jest.mock("recharts", () => ({
   LineChart: ({ children }) => <div data-testid="line-chart">{children}</div>,

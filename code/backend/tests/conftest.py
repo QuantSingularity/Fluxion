@@ -3,6 +3,7 @@ Pytest configuration and fixtures for Fluxion backend tests
 """
 
 import asyncio
+import sys
 from datetime import datetime, timezone
 from typing import Any, AsyncGenerator
 from uuid import uuid4
@@ -18,6 +19,43 @@ from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker, create_asyn
 from sqlalchemy.pool import StaticPool
 
 TEST_DATABASE_URL = "sqlite+aiosqlite:///:memory:"
+
+_CODE_DIR = str(__import__("pathlib").Path(__file__).resolve().parents[2])
+if _CODE_DIR not in sys.path:
+    sys.path.insert(0, _CODE_DIR)
+
+
+@pytest.fixture(scope="session")
+def ml_models_ready(tmp_path_factory):
+    from config.settings import settings
+    from services.ml import get_ml_gateway, reset_ml_gateway
+
+    previous = (
+        settings.ml.ML_MODE,
+        settings.ml.ML_MODEL_PATH,
+        settings.ml.ML_AUTO_BOOTSTRAP,
+        settings.ml.ML_SERVICE_URL,
+    )
+    settings.ml.ML_MODE = "local"
+    settings.ml.ML_SERVICE_URL = None
+    settings.ml.ML_MODEL_PATH = str(tmp_path_factory.mktemp("ml_artifacts"))
+    settings.ml.ML_AUTO_BOOTSTRAP = False
+
+    async def prepare() -> None:
+        await reset_ml_gateway()
+        gateway = get_ml_gateway()
+        await gateway.startup()
+        await asyncio.to_thread(gateway._backend.service.bootstrap, "quick")
+
+    asyncio.run(prepare())
+    yield
+    asyncio.run(reset_ml_gateway())
+    (
+        settings.ml.ML_MODE,
+        settings.ml.ML_MODEL_PATH,
+        settings.ml.ML_AUTO_BOOTSTRAP,
+        settings.ml.ML_SERVICE_URL,
+    ) = previous
 
 
 @pytest_asyncio.fixture(scope="function")

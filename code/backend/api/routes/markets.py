@@ -16,87 +16,13 @@ SyntheticAsset tables when the persistence layer is wired up.
 from typing import Any, Dict, List, Optional
 
 from fastapi import APIRouter, HTTPException, Query
+from services.market.market_data import POOLS, SYNTHETICS
 
 router = APIRouter()
 
 
-# ── In-memory market snapshot (replace with DB queries) ──────────────────────
-
-_POOLS: List[Dict[str, Any]] = [
-    {
-        "id": "pool-synbtc-synusd",
-        "name": "synBTC/synUSD",
-        "pair": "synBTC/synUSD",
-        "assets": ["synBTC", "synUSD"],
-        "weights": [50, 50],
-        "fee": 0.003,
-        "tvl": 10500000,
-        "apr": 12.5,
-        "volume_24h": 2100000,
-        "fees_24h": 6300,
-        "utilization": 0.72,
-        "verified": True,
-    },
-    {
-        "id": "pool-syneth-synusd",
-        "name": "synETH/synUSD",
-        "pair": "synETH/synUSD",
-        "assets": ["synETH", "synUSD"],
-        "weights": [50, 50],
-        "fee": 0.003,
-        "tvl": 8200000,
-        "apr": 10.8,
-        "volume_24h": 1640000,
-        "fees_24h": 4920,
-        "utilization": 0.65,
-        "verified": True,
-    },
-    {
-        "id": "pool-syneth-synbtc",
-        "name": "synETH/synBTC",
-        "pair": "synETH/synBTC",
-        "assets": ["synETH", "synBTC"],
-        "weights": [60, 40],
-        "fee": 0.0025,
-        "tvl": 4300000,
-        "apr": 8.1,
-        "volume_24h": 720000,
-        "fees_24h": 1800,
-        "utilization": 0.48,
-        "verified": False,
-    },
-]
-
-_SYNTHETICS: List[Dict[str, Any]] = [
-    {
-        "id": "syn-eth",
-        "name": "Synthetic Ethereum",
-        "symbol": "synETH",
-        "underlying_asset": "ETH",
-        "price": 3450.25,
-        "price_change_24h": 2.4,
-        "collateral_ratio": 1.5,
-        "total_supply": 125000,
-        "circulating_supply": 118500,
-        "tvl": 78500000,
-        "volume_24h": 12400000,
-        "verified": True,
-    },
-    {
-        "id": "syn-btc",
-        "name": "Synthetic Bitcoin",
-        "symbol": "synBTC",
-        "underlying_asset": "BTC",
-        "price": 64800.0,
-        "price_change_24h": -1.1,
-        "collateral_ratio": 1.5,
-        "total_supply": 2100,
-        "circulating_supply": 1985,
-        "tvl": 79000000,
-        "volume_24h": 9800000,
-        "verified": True,
-    },
-]
+_POOLS = POOLS
+_SYNTHETICS = SYNTHETICS
 
 
 def _paginate(

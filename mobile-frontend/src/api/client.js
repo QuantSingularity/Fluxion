@@ -267,6 +267,63 @@ export const fetchPoolById = async (poolId) => {
   }
 };
 
+const mlError = (error, fallback) =>
+  new Error(error.response?.data?.detail || fallback);
+
+export const fetchRiskOverview = async () => {
+  try {
+    const response = await retryRequest(
+      () => apiClient.get("/ml/risk/overview"),
+      2,
+      500,
+    );
+    return unwrap(response.data);
+  } catch (error) {
+    console.error(
+      "API Error (fetchRiskOverview):",
+      error.response?.data || error.message,
+    );
+    throw mlError(error, "Failed to fetch risk overview");
+  }
+};
+
+export const fetchPoolRisk = async (poolId) => {
+  try {
+    const response = await retryRequest(
+      () => apiClient.get(`/ml/pools/${encodeURIComponent(poolId)}/risk`),
+      2,
+      500,
+    );
+    return unwrap(response.data);
+  } catch (error) {
+    console.error(
+      "API Error (fetchPoolRisk):",
+      error.response?.data || error.message,
+    );
+    throw mlError(error, "Failed to fetch pool risk");
+  }
+};
+
+export const fetchPoolForecast = async (poolId, horizon = 3) => {
+  try {
+    const response = await retryRequest(
+      () =>
+        apiClient.get(`/ml/pools/${encodeURIComponent(poolId)}/forecast`, {
+          params: { horizon },
+        }),
+      2,
+      500,
+    );
+    return unwrap(response.data);
+  } catch (error) {
+    console.error(
+      "API Error (fetchPoolForecast):",
+      error.response?.data || error.message,
+    );
+    throw mlError(error, "Failed to fetch liquidity forecast");
+  }
+};
+
 /**
  * Fetch asset price history
  * @param {string} assetId - Asset ID

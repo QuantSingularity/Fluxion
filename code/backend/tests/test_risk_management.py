@@ -546,6 +546,10 @@ class TestRiskManagementService:
 class TestRiskManagementAPI:
     """Test suite for Risk Management API endpoints"""
 
+    @pytest.fixture(autouse=True)
+    def _ml_ready(self, ml_models_ready: Any) -> Any:
+        return None
+
     @pytest.fixture
     def client(self) -> Any:
         """Create test client"""

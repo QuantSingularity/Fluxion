@@ -121,6 +121,18 @@ export const syntheticsAPI = {
   getSyntheticById: (id) => api.get(`/markets/synthetics/${id}`),
 };
 
+export const mlAPI = {
+  getRiskOverview: () => api.get("/ml/risk/overview", { timeout: 30000 }),
+  getPoolRisk: (id) => api.get(`/ml/pools/${encodeURIComponent(id)}/risk`),
+  getAssetRisk: (id) => api.get(`/ml/assets/${encodeURIComponent(id)}/risk`),
+  getPoolForecast: (id, horizon = 3) =>
+    api.get(`/ml/pools/${encodeURIComponent(id)}/forecast`, {
+      params: { horizon },
+      timeout: 30000,
+    }),
+  getStatus: () => api.get("/ml/status"),
+};
+
 export const healthAPI = {
   check: () => api.get("/health/"),
 };

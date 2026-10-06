@@ -169,7 +169,7 @@ code/
 │   ├── Dockerfile
 │   └── requirements.txt
 ├── blockchain/               # Solidity contracts & tests
-├── ml_models/                # ML model training & inference
+├── ml_models/                # ML models, training CLI and inference service (see ml_models/README.md)
 └── README.md
 ```
 

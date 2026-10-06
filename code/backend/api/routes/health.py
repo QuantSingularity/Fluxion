@@ -8,6 +8,7 @@ from typing import Any, Dict
 from config.database import DatabaseHealthCheck
 from config.settings import settings
 from fastapi import APIRouter
+from services.ml import get_ml_gateway
 
 router = APIRouter()
 
@@ -37,6 +38,16 @@ async def health_detailed() -> Dict[str, Any]:
     if db_read.get("status") not in ("healthy", "not_configured"):
         overall = "degraded"
 
+    try:
+        ml_status = await get_ml_gateway().status()
+        ml = {
+            "status": "healthy" if ml_status.get("ready") else "degraded",
+            "mode": ml_status.get("mode"),
+            "missing": ml_status.get("missing", []),
+        }
+    except Exception as exc:
+        ml = {"status": "unavailable", "error": str(exc)}
+
     return {
         "status": overall,
         "version": settings.app.VERSION,
@@ -45,6 +56,7 @@ async def health_detailed() -> Dict[str, Any]:
         "dependencies": {
             "database_primary": db_write,
             "database_replica": db_read,
+            "ml": ml,
         },
     }
 

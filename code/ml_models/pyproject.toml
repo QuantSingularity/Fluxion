@@ -1,0 +1,57 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "fluxion-ml"
+version = "1.0.0"
+description = "Machine learning models and inference service for the Fluxion platform"
+requires-python = ">=3.10"
+dependencies = [
+    "numpy>=1.26,<2",
+    "pandas>=2.2",
+    "scikit-learn>=1.5",
+    "joblib>=1.4",
+    "torch>=2.5",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.4",
+    "black>=24.0",
+    "isort>=5.13",
+    "flake8>=7.0",
+]
+
+[project.scripts]
+fluxion-ml-serve = "ml_models.serving.server:main"
+fluxion-ml-train = "ml_models.cli.train:main"
+
+[tool.setuptools]
+package-dir = { "ml_models" = "." }
+packages = [
+    "ml_models",
+    "ml_models.config",
+    "ml_models.core",
+    "ml_models.data",
+    "ml_models.networks",
+    "ml_models.forecasting",
+    "ml_models.risk",
+    "ml_models.anomaly",
+    "ml_models.serving",
+    "ml_models.cli",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-ra --strict-markers"
+filterwarnings = ["ignore::DeprecationWarning", "ignore::UserWarning"]
+
+[tool.black]
+line-length = 88
+target-version = ["py310", "py311", "py312"]
+
+[tool.isort]
+profile = "black"
+line_length = 88
+known_first_party = ["ml_models"]

@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Pressable, StyleSheet, Text, View } from "react-native";
+import MlRiskSection from "../components/ml/MlRiskSection";
 import AppCard from "../components/ui/AppCard";
 import {
   AreaChartMini,
@@ -145,6 +146,8 @@ const AnalyticsScreen = () => {
           </AppCard>
         ))}
       </View>
+
+      <MlRiskSection />
     </Screen>
   );
 };

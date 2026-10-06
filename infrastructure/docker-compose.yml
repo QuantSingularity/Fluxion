@@ -99,6 +99,9 @@ services:
       VAULT_ADDR: http://vault:8200
       VAULT_TOKEN: ${VAULT_ROOT_TOKEN:-fluxion-root-token}
       LOG_LEVEL: ${LOG_LEVEL:-info}
+      ML_MODE: remote
+      ML_SERVICE_URL: http://ml-service:8000
+      ML_SERVICE_API_KEY: ${ML_SERVICE_API_KEY:-}
       ENABLE_AUDIT_LOGGING: "true"
       ENABLE_SECURITY_HEADERS: "true"
       ENABLE_RATE_LIMITING: "true"
@@ -276,6 +279,9 @@ services:
       PORT: 8000
       METRICS_PORT: 9091
       MODEL_PATH: /app/models
+      ML_SERVICE_API_KEY: ${ML_SERVICE_API_KEY:-}
+      ML_AUTO_BOOTSTRAP: ${ML_AUTO_BOOTSTRAP:-true}
+      ML_BOOTSTRAP_PROFILE: ${ML_BOOTSTRAP_PROFILE:-full}
       LOG_LEVEL: ${LOG_LEVEL:-info}
       ENABLE_MODEL_ENCRYPTION: "true"
       VAULT_ADDR: http://vault:8200

@@ -6,22 +6,13 @@ sequence building, and edge cases.
 
 from __future__ import annotations
 
-import os
-
-# The data_pipeline lives in code/ml_models - add it to sys.path via conftest
-import sys
 from datetime import datetime, timedelta, timezone
 from typing import List
 
 import numpy as np
 import pandas as pd
 import pytest
-
-sys.path.insert(
-    0, os.path.join(os.path.dirname(__file__), "..", "..", "..", "ml_models")
-)
-
-from data_pipeline import (
+from ml_models.data.pipeline import (
     _MINMAX_FEATURES,
     _ROBUST_FEATURES,
     ALL_FEATURES,

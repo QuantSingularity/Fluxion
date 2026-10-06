@@ -50,6 +50,7 @@ import {
   FiTrendingUp,
 } from "react-icons/fi";
 import { Link as RouterLink } from "react-router-dom";
+import MlRiskPanel from "../../components/analytics/MlRiskPanel";
 import {
   Area,
   AreaChart,
@@ -265,6 +266,8 @@ const Analytics = () => {
           </Stat>
         ))}
       </SimpleGrid>
+
+      <MlRiskPanel />
 
       {/* Main Tabs */}
       <Tabs variant="soft-rounded" colorScheme="brand" mb={8}>

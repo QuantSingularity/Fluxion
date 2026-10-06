@@ -203,6 +203,37 @@ class ExternalServicesSettings(BaseSettings):
     ANALYTICS_SERVICE_URL: Optional[str] = Field(default=None)
 
 
+class MLSettings(BaseSettings):
+    model_config = SettingsConfigDict(
+        env_file=".env", env_file_encoding="utf-8", case_sensitive=True, extra="ignore"
+    )
+
+    ML_MODE: str = Field(default="auto")
+    ML_SERVICE_URL: Optional[str] = Field(default=None)
+    ML_SERVICE_API_KEY: Optional[str] = Field(default=None)
+    ML_REQUEST_TIMEOUT: float = Field(default=30.0)
+    ML_MODEL_PATH: str = Field(default="./ml_artifacts")
+    ML_AUTO_BOOTSTRAP: bool = Field(default=True)
+    ML_BOOTSTRAP_PROFILE: str = Field(default="full")
+    ML_HISTORY_POINTS: int = Field(default=120)
+    ML_CACHE_TTL: int = Field(default=60)
+
+    @field_validator("ML_MODE")
+    @classmethod
+    def validate_mode(cls, v: str) -> str:
+        mode = v.strip().lower()
+        if mode not in {"auto", "remote", "local", "disabled"}:
+            raise ValueError("ML_MODE must be one of auto, remote, local, disabled")
+        return mode
+
+    @field_validator("ML_HISTORY_POINTS")
+    @classmethod
+    def validate_history(cls, v: int) -> int:
+        if v < 120 or v > 5000:
+            raise ValueError("ML_HISTORY_POINTS must be between 120 and 5000")
+        return v
+
+
 class Settings(BaseSettings):
     """Main settings class combining all setting groups"""
 
@@ -219,6 +250,7 @@ class Settings(BaseSettings):
     compliance: ComplianceSettings = ComplianceSettings()
     monitoring: MonitoringSettings = MonitoringSettings()
     external: ExternalServicesSettings = ExternalServicesSettings()
+    ml: MLSettings = MLSettings()
 
 
 settings = Settings()
