@@ -98,6 +98,12 @@ jobs:
             --cov=. \
             --cov-report=xml:coverage.xml
 
+      - name: Run ML models test suite
+        working-directory: code/ml_models
+        run: |
+          set -euo pipefail
+          python -m pytest tests/ --tb=short -v
+
       - name: Upload coverage report
         if: always()
         uses: actions/upload-artifact@v4
@@ -107,7 +113,139 @@ jobs:
           retention-days: 30
 
   # ============================================================
-  # Job 3 -- Web Frontend Test & Build
+  # Job 3 -- Backend Docker Build (API + ML service images)
+  # ============================================================
+  backend_build:
+    name: Backend Build
+    runs-on: ubuntu-latest
+    needs: backend_tests
+
+    env:
+      BACKEND_IMAGE: fluxion-backend:ci
+      ML_IMAGE: fluxion-ml-service:ci
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build backend image
+        uses: docker/build-push-action@v6
+        with:
+          context: code/backend
+          file: code/backend/Dockerfile
+          push: false
+          load: true
+          tags: ${{ env.BACKEND_IMAGE }}
+
+      - name: Smoke test backend image
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          uid="$(docker run --rm --entrypoint id "$BACKEND_IMAGE" -u)"
+          if [ "$uid" = "0" ]; then
+            echo "Backend image must not run as root"
+            exit 1
+          fi
+
+          docker run -d --name fluxion-backend-ci -p 8000:8000 \
+            -e SECRET_KEY="$(openssl rand -hex 32)" \
+            -e DATABASE_URL="sqlite+aiosqlite:////tmp/ci.db" \
+            -e ML_MODE=disabled \
+            "$BACKEND_IMAGE"
+
+          healthy=false
+          for attempt in $(seq 1 30); do
+            if curl -fsS http://localhost:8000/health > /dev/null; then
+              healthy=true
+              break
+            fi
+            sleep 2
+          done
+          if [ "$healthy" != "true" ]; then
+            echo "Backend container did not become healthy"
+            exit 1
+          fi
+
+          status="$(curl -s -o /dev/null -w '%{http_code}' http://localhost:8000/api/v1/ml/risk/overview)"
+          if [ "$status" != "503" ]; then
+            echo "Expected 503 from the ML route with ML disabled, got $status"
+            exit 1
+          fi
+
+      - name: Show backend container logs
+        if: failure()
+        run: docker logs fluxion-backend-ci || true
+
+      - name: Build ML service image
+        uses: docker/build-push-action@v6
+        with:
+          context: code/ml_models
+          file: code/ml_models/Dockerfile
+          push: false
+          load: true
+          tags: ${{ env.ML_IMAGE }}
+          cache-from: type=gha,scope=ml-service
+          cache-to: type=gha,mode=max,scope=ml-service
+
+      - name: Smoke test ML service image
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          uid="$(docker run --rm --entrypoint id "$ML_IMAGE" -u)"
+          if [ "$uid" = "0" ]; then
+            echo "ML service image must not run as root"
+            exit 1
+          fi
+
+          docker run -d --name fluxion-ml-ci -p 8001:8000 \
+            -e ML_AUTO_BOOTSTRAP=false \
+            -e ML_SERVICE_API_KEY=ci-test-key \
+            "$ML_IMAGE"
+
+          healthy=false
+          for attempt in $(seq 1 30); do
+            if curl -fsS http://localhost:8001/health > /dev/null; then
+              healthy=true
+              break
+            fi
+            sleep 2
+          done
+          if [ "$healthy" != "true" ]; then
+            echo "ML service container did not become healthy"
+            exit 1
+          fi
+
+          check() {
+            expected="$1"
+            shift
+            status="$(curl -s -o /dev/null -w '%{http_code}' "$@")"
+            if [ "$status" != "$expected" ]; then
+              echo "Expected $expected, got $status for: $*"
+              exit 1
+            fi
+          }
+
+          check 503 http://localhost:8001/ready
+          check 401 -X POST http://localhost:8001/v1/risk/assess \
+            -H "Content-Type: application/json" -d '{}'
+          check 422 -X POST http://localhost:8001/v1/risk/assess \
+            -H "Content-Type: application/json" -H "X-API-Key: ci-test-key" -d '{}'
+
+      - name: Show ML service container logs
+        if: failure()
+        run: docker logs fluxion-ml-ci || true
+
+      - name: Clean up containers
+        if: always()
+        run: docker rm -f fluxion-backend-ci fluxion-ml-ci || true
+
+  # ============================================================
+  # Job 4 -- Web Frontend Test & Build
   # ============================================================
   web-frontend_test_and_build:
     name: Web-Frontend Test & Build
@@ -147,7 +285,7 @@ jobs:
           retention-days: 7
 
   # ============================================================
-  # Job 4 -- Mobile Frontend (Expo) Build & Test
+  # Job 5 -- Mobile Frontend (Expo) Build & Test
   # ============================================================
   mobile_frontend:
     name: Mobile-Frontend Test & Build
@@ -187,7 +325,7 @@ jobs:
           retention-days: 7
 
   # ============================================================
-  # Job 5 -- Smart Contracts (Foundry) Compile & Test
+  # Job 6 -- Smart Contracts (Foundry) Compile & Test
   # ============================================================
   blockchain_tests:
     name: Smart Contracts Compile & Test
