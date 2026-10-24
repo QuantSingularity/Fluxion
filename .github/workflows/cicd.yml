@@ -285,7 +285,7 @@ jobs:
           retention-days: 7
 
   # ============================================================
-  # Job 5 -- Mobile Frontend (Expo) Build & Test
+  # Job 5 -- Mobile Frontend (Expo) Test & Build
   # ============================================================
   mobile_frontend:
     name: Mobile-Frontend Test & Build
@@ -314,7 +314,7 @@ jobs:
         run: npm run test:ci
 
       - name: Build Mobile Web Export
-        run: npx expo export --platform web
+        run: CI=false npm run build:web
 
       - name: Upload Mobile Web Build
         if: success()
