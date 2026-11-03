@@ -32,7 +32,7 @@ Fluxion demonstrates a synthetic asset workflow across a real, runnable codebase
 
 ## Project Structure
 
-```
+```text
 Fluxion/
 ├── code/
 │   ├── backend/              # FastAPI service: API, auth, services, DB
@@ -107,7 +107,7 @@ PostgreSQL is a real dependency but is not provisioned by the included Docker Co
 
 ## Architecture
 
-```
+```text
 Clients
   ├── web-frontend (React)               ── HTTP/JSON ──┐
   └── mobile-frontend (React Native)     ── HTTP/JSON ──┤

@@ -7,10 +7,10 @@ Complete configuration reference for Fluxion, including environment variables, c
 - [Configuration Overview](#configuration-overview)
 - [Environment Variables](#environment-variables)
 - [Configuration Files](#configuration-files)
-- [Database Configuration](#database-configuration)
-- [Blockchain Configuration](#blockchain-configuration)
+- [Database Setup](#database-setup)
+- [Blockchain Tooling Configuration](#blockchain-tooling-configuration)
 - [Security Configuration](#security-configuration)
-- [AI/ML Configuration](#aiml-configuration)
+- [AI/ML Model Configuration](#aiml-model-configuration)
 - [Monitoring Configuration](#monitoring-configuration)
 - [Environment-Specific Settings](#environment-specific-settings)
 
@@ -355,7 +355,7 @@ volumes:
   redis_data:
 ```
 
-## Database Configuration
+## Database Setup
 
 ### PostgreSQL Setup
 
@@ -404,7 +404,7 @@ timeout 0
 tcp-keepalive 300
 ```
 
-## Blockchain Configuration
+## Blockchain Tooling Configuration
 
 ### Foundry Configuration (foundry.toml)
 
@@ -492,7 +492,7 @@ sudo ufw allow 8545/tcp  # Blockchain RPC (internal only)
 sudo ufw enable
 ```
 
-## AI/ML Configuration
+## AI/ML Model Configuration
 
 ### Model Configuration (code/ml_models/config.yaml)
 

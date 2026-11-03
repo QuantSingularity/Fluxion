@@ -13,9 +13,9 @@ asg_min_size         = 2
 asg_max_size         = 10
 asg_desired_capacity = 3
 
-db_instance_class          = "db.t3.large"
-db_name                    = "fluxiondb"
-db_username                = "fluxion_admin"
+db_instance_class = "db.t3.large"
+db_name           = "fluxiondb"
+db_username       = "fluxion_admin"
 # db_password must be set via environment variable: TF_VAR_db_password
 db_multi_az                = true
 db_backup_retention_period = 14
@@ -30,7 +30,7 @@ enable_guardduty    = true
 enable_cloudtrail   = true
 enable_security_hub = true
 
-enable_s3_versioning = true
+enable_s3_versioning  = true
 backup_retention_days = 90
 
 default_tags = {

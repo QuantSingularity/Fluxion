@@ -518,7 +518,7 @@ ML_DATA_PATH=/data/training     # Training data location
 
 Scripts load configuration from:
 
-```
+```text
 infrastructure/
 ├── deployment/configs/
 │   ├── development.env

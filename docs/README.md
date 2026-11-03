@@ -4,18 +4,18 @@ Welcome to the comprehensive documentation for Fluxion, a cutting-edge synthetic
 
 ## Table of Contents
 
-| Document                                | Description                                                   |
-| --------------------------------------- | ------------------------------------------------------------- |
-| [Installation Guide](INSTALLATION.md)   | Step-by-step installation instructions for all platforms      |
-| [Usage Guide](USAGE.md)                 | How to use Fluxion for trading, liquidity provision, and more |
-| [API Reference](API.md)                 | Complete API documentation with examples                      |
-| [CLI Reference](CLI.md)                 | Command-line interface documentation                          |
-| [Configuration Guide](CONFIGURATION.md) | Configuration options and environment variables               |
-| [Feature Matrix](FEATURE_MATRIX.md)     | Comprehensive feature overview and availability               |
-| [Architecture](ARCHITECTURE.md)         | System architecture and design patterns                       |
-| [Examples](EXAMPLES/)                   | Working code examples and tutorials                           |
-| [Contributing Guide](CONTRIBUTING.md)   | How to contribute to Fluxion                                  |
-| [Troubleshooting](TROUBLESHOOTING.md)   | Common issues and solutions                                   |
+| Document                                    | Description                                                   |
+| ------------------------------------------- | ------------------------------------------------------------- |
+| [Installation Guide](INSTALLATION.md)       | Step-by-step installation instructions for all platforms      |
+| [Usage Guide](USAGE.md)                     | How to use Fluxion for trading, liquidity provision, and more |
+| [API Reference](API.md)                     | Complete API documentation with examples                      |
+| [CLI Reference](CLI.md)                     | Command-line interface documentation                          |
+| [Configuration Guide](CONFIGURATION.md)     | Configuration options and environment variables               |
+| [Feature Matrix](FEATURE_MATRIX.md)         | Comprehensive feature overview and availability               |
+| [Architecture](ARCHITECTURE.md)             | System architecture and design patterns                       |
+| [Examples](examples/liquidity_provision.md) | Worked example: providing and withdrawing liquidity           |
+| [Contributing Guide](CONTRIBUTING.md)       | How to contribute to Fluxion                                  |
+| [Troubleshooting](TROUBLESHOOTING.md)       | Common issues and solutions                                   |
 
 ## Quick Start
 
@@ -53,7 +53,7 @@ Access the web interface at `http://localhost:3000` and the API at `http://local
 
 - Review [Architecture](ARCHITECTURE.md) to understand the system design
 - Use [API Reference](API.md) and [CLI Reference](CLI.md) for integration
-- Explore [Examples](EXAMPLES/) for practical implementations
+- Explore [Examples](examples/) for practical implementations
 - Read [Contributing Guide](CONTRIBUTING.md) before submitting pull requests
 
 ### For Operators

@@ -451,5 +451,5 @@ For complete API documentation, see [API Reference](API.md).
 
 - **Explore [API Reference](API.md)** for detailed endpoint documentation
 - **Read [Configuration Guide](CONFIGURATION.md)** to customize your setup
-- **Check [Examples](EXAMPLES/)** for more use cases
+- **Check [Examples](examples/)** for more use cases
 - **Review [Troubleshooting](TROUBLESHOOTING.md)** for common issues

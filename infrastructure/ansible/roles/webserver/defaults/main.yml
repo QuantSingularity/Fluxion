@@ -1,0 +1,4 @@
+---
+# roles/webserver/defaults/main.yml
+# Lowest-precedence defaults; override in group_vars/all.yml or with --extra-vars.
+app_name: fluxion

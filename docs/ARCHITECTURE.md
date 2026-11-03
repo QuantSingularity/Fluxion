@@ -16,7 +16,7 @@ High-level system architecture, component interactions, and design patterns for 
 
 Fluxion is a microservices-based synthetic asset liquidity engine built on a three-tier architecture:
 
-```
+```text
 ┌─────────────────────────────────────────────────────────────┐
 │                    PRESENTATION LAYER                        │
 │  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐      │
@@ -85,7 +85,7 @@ Fluxion is a microservices-based synthetic asset liquidity engine built on a thr
 
 #### Web Frontend (`web-frontend/`)
 
-```
+```text
 web-frontend/
 ├── src/
 │   ├── components/        # React components
@@ -111,7 +111,7 @@ web-frontend/
 
 #### Mobile Frontend (`mobile-frontend/`)
 
-```
+```text
 mobile-frontend/
 ├── src/
 │   ├── screens/           # App screens
@@ -152,7 +152,7 @@ app.include_router(api_router, prefix="/api/v1")
 
 Located in `code/backend/`:
 
-```
+```text
 code/backend/
 ├── api/
 │   ├── v1/
@@ -360,7 +360,7 @@ class SupplyChainForecaster(nn.Module):
 
 ### Trading Flow
 
-```
+```text
 ┌─────────┐   1. Place Order    ┌─────────┐
 │  User   ├──────────────────────>  API    │
 │ (Web UI)│                       │Gateway │
@@ -390,7 +390,7 @@ class SupplyChainForecaster(nn.Module):
 
 ### Cross-Chain Liquidity Flow
 
-```
+```text
   Ethereum                    CCIP Router                  Polygon
 ┌──────────┐               ┌─────────────┐             ┌──────────┐
 │  Pool A  │──1. Lock────> │  Chainlink  │──2. Msg───> │  Pool B  │
@@ -409,7 +409,7 @@ class SupplyChainForecaster(nn.Module):
 
 ### AI Prediction Flow
 
-```
+```text
 ┌──────────────┐   1. Request      ┌──────────┐
 │   User/API   ├────Prediction─────>   API    │
 └──────────────┘                   │ Gateway  │
@@ -493,7 +493,7 @@ class SupplyChainForecaster(nn.Module):
 
 ### Repository Structure
 
-```
+```text
 Fluxion/
 ├── code/
 │   ├── backend/               # Backend API service
@@ -666,10 +666,10 @@ See [Monitoring Configuration](CONFIGURATION.md#monitoring-configuration) for se
 - CSRF protection
 - Audit logging of critical actions
 
-For details, see [Security Documentation](../docs/SECURITY.md).
+For security and compliance controls of the deployed infrastructure, see the [Infrastructure README](../infrastructure/README.md).
 
 ## Next Steps
 
 - **For developers**: Review [Contributing Guide](CONTRIBUTING.md)
 - **For users**: See [Usage Guide](USAGE.md) and [API Reference](API.md)
-- **For operators**: Check [Deployment Guide](../docs/DEPLOYMENT.md)
+- **For operators**: See the [Infrastructure README](../infrastructure/README.md) for deployment

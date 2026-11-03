@@ -318,7 +318,7 @@ After installation:
 
 1. **Read the [Usage Guide](USAGE.md)** to learn how to use Fluxion
 2. **Review [Configuration Guide](CONFIGURATION.md)** to customize your setup
-3. **Explore [Examples](EXAMPLES/)** for practical use cases
+3. **Explore [Examples](examples/)** for practical use cases
 4. **Check [API Reference](API.md)** for integration details
 
 ## Support

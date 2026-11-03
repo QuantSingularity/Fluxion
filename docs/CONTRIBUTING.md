@@ -87,7 +87,7 @@ git checkout -b fix/bug-description
 
 Follow Conventional Commits specification:
 
-```
+```text
 <type>(<scope>): <subject>
 
 [optional body]
@@ -544,7 +544,7 @@ git push origin feature/your-feature-name
 
 **PR Title Format:**
 
-```
+```text
 <type>: <description>
 
 Example:

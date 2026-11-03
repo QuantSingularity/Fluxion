@@ -6,9 +6,9 @@
 # - --extra-vars on command line
 # - Environment variables
 
-# Database parameters (reference variables defined elsewhere)
-db_name: '{{ db_name | default("fluxion") }}'
-db_user: '{{ db_user | default("fluxion_app") }}'
+# db_name and db_user are defined in defaults/main.yml so that group_vars can
+# override them. Defining them here, in terms of themselves, is a recursive
+# template that Ansible refuses to render.
 
 # Password variables - must be defined externally
 # db_password: defined in group_vars/all.yml or via --extra-vars

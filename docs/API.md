@@ -21,7 +21,7 @@ Complete reference for Fluxion's RESTful API with parameters, examples, and resp
 
 ### Base URL
 
-```
+```text
 Production: https://api.fluxion.exchange/v1
 Staging: https://api-staging.fluxion.exchange/v1
 Local: http://localhost:8000/api/v1
@@ -52,7 +52,7 @@ Authenticate user and receive JWT token.
 
 | Parameter   | Type    | Required | Default | Description            | Example            |
 | ----------- | ------- | -------- | ------- | ---------------------- | ------------------ |
-| username    | string  | Yes      | -       | User username or email | "user@example.com" |
+| username    | string  | Yes      | -       | User username or email | `user@example.com` |
 | password    | string  | Yes      | -       | User password          | "SecurePass123!"   |
 | remember_me | boolean | No       | false   | Extended token expiry  | true               |
 
@@ -580,7 +580,7 @@ Get system health and status (requires admin role).
 
 ### Connection
 
-```
+```text
 wss://api.fluxion.exchange/ws/v1
 ```
 
@@ -672,7 +672,7 @@ wss://api.fluxion.exchange/ws/v1
 
 Rate limit headers are included in all responses:
 
-```
+```text
 X-RateLimit-Limit: 100
 X-RateLimit-Remaining: 95
 X-RateLimit-Reset: 1640995200
@@ -691,9 +691,4 @@ When rate limit is exceeded:
 
 ## SDK Examples
 
-See complete SDK examples in:
-
-- Python: [examples/python_sdk_example.py](examples/python_sdk_example.py)
-- JavaScript: [examples/javascript_sdk_example.js](examples/javascript_sdk_example.js)
-
-For more information, see [Usage Guide](USAGE.md).
+There are no standalone SDK example files yet. The request and response samples above, the [Usage Guide](USAGE.md) and the [liquidity provision example](examples/liquidity_provision.md) show working calls.

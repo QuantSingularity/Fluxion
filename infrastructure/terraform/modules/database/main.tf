@@ -55,16 +55,16 @@ resource "aws_db_instance" "main" {
   db_subnet_group_name   = aws_db_subnet_group.main.name
   vpc_security_group_ids = var.security_group_ids
 
-  multi_az                    = var.multi_az
-  backup_retention_period     = var.backup_retention_period
-  backup_window               = var.backup_window
-  maintenance_window          = var.maintenance_window
-  deletion_protection         = var.deletion_protection
-  skip_final_snapshot         = var.skip_final_snapshot
-  final_snapshot_identifier   = var.skip_final_snapshot ? null : "${var.db_name}-${var.environment}-final-snapshot"
-  copy_tags_to_snapshot       = var.copy_tags_to_snapshot
-  auto_minor_version_upgrade  = true
-  publicly_accessible         = false
+  multi_az                   = var.multi_az
+  backup_retention_period    = var.backup_retention_period
+  backup_window              = var.backup_window
+  maintenance_window         = var.maintenance_window
+  deletion_protection        = var.deletion_protection
+  skip_final_snapshot        = var.skip_final_snapshot
+  final_snapshot_identifier  = var.skip_final_snapshot ? null : "${var.db_name}-${var.environment}-final-snapshot"
+  copy_tags_to_snapshot      = var.copy_tags_to_snapshot
+  auto_minor_version_upgrade = true
+  publicly_accessible        = false
 
   performance_insights_enabled          = var.performance_insights
   performance_insights_kms_key_id       = var.performance_insights ? var.kms_key_id : null

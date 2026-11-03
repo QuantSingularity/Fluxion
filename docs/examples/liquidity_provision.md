@@ -417,7 +417,7 @@ if __name__ == "__main__":
 - Review [API Reference](../API.md#liquidity-operations) for complete pool API
 - Study [Risk Management](../API.md#risk-management) for portfolio protection
 - Check [Configuration](../CONFIGURATION.md) for pool parameters
-- See [Trading Example](trading_example.py) for complementary workflows
+- See the [Usage Guide](../USAGE.md) for complementary trading workflows
 
 ## Disclaimer
 

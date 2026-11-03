@@ -1,0 +1,5 @@
+---
+# roles/database/defaults/main.yml
+# Lowest-precedence defaults; override in group_vars/all.yml or with --extra-vars.
+db_name: fluxion
+db_user: fluxion_app

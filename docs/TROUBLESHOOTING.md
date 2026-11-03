@@ -319,25 +319,25 @@ if (typeof window.ethereum === "undefined") {
 
 1. **Backend fix** - Update `code/backend/app/main.py`:
 
-```python
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=[
-        "http://localhost:3000",
-        "http://localhost:5173",
-        "https://app.fluxion.exchange"
-    ],
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
-```
+   ```python
+   app.add_middleware(
+       CORSMiddleware,
+       allow_origins=[
+           "http://localhost:3000",
+           "http://localhost:5173",
+           "https://app.fluxion.exchange"
+       ],
+       allow_credentials=True,
+       allow_methods=["*"],
+       allow_headers=["*"],
+   )
+   ```
 
 2. **Environment variable** - Update `.env`:
 
-```bash
-ALLOWED_ORIGINS=http://localhost:3000,http://localhost:5173
-```
+   ```bash
+   ALLOWED_ORIGINS=http://localhost:3000,http://localhost:5173
+   ```
 
 3. Restart backend after changes
 
@@ -359,9 +359,11 @@ curl -i -N -H "Connection: Upgrade" \
 
 # Check firewall allows WebSocket
 sudo ufw allow 8000/tcp
+```
 
-# In frontend, ensure correct WebSocket URL
-const ws = new WebSocket('ws://localhost:8000/ws/v1');
+```javascript
+// In frontend, ensure correct WebSocket URL
+const ws = new WebSocket("ws://localhost:8000/ws/v1");
 // NOT 'wss://' for local development
 ```
 
@@ -543,8 +545,10 @@ FROM pg_tables
 WHERE schemaname NOT IN ('pg_catalog', 'information_schema')
 ORDER BY pg_total_relation_size(schemaname||'.'||tablename) DESC
 LIMIT 10;"
+```
 
-# Clean old data if appropriate
+```sql
+-- Clean old data if appropriate
 DELETE FROM price_history WHERE time < NOW() - INTERVAL '90 days';
 VACUUM FULL price_history;
 ```
@@ -580,11 +584,16 @@ uvicorn app.main:app --host 0.0.0.0 --port 8000
 **Solution:**
 
 ```bash
-# For development, accept self-signed certs
-export NODE_TLS_REJECT_UNAUTHORIZED=0  # Node.js
+# For development, accept self-signed certs (Node.js)
+export NODE_TLS_REJECT_UNAUTHORIZED=0
+```
+
+```python
 # Or in Python requests:
 requests.get(url, verify=False)
+```
 
+```bash
 # For production, ensure valid SSL certificate
 # Check certificate
 openssl s_client -connect api.fluxion.exchange:443 -servername api.fluxion.exchange
@@ -603,38 +612,38 @@ sudo certbot renew
 
 1. **Enable caching:**
 
-```python
-# Add Redis caching for expensive operations
-@cache(expire=300)  # 5 minute cache
-async def get_pool_stats(pool_id: str):
-    ...
-```
+   ```python
+   # Add Redis caching for expensive operations
+   @cache(expire=300)  # 5 minute cache
+   async def get_pool_stats(pool_id: str):
+       ...
+   ```
 
 2. **Optimize database queries:**
 
-```python
-# Use select_in_loading for relationships
-query = select(Order).options(
-    selectinload(Order.user)
-)
-```
+   ```python
+   # Use select_in_loading for relationships
+   query = select(Order).options(
+       selectinload(Order.user)
+   )
+   ```
 
 3. **Add database indexes:**
 
-```sql
-CREATE INDEX CONCURRENTLY idx_orders_asset_status
-ON orders(asset_id, status);
-```
+   ```sql
+   CREATE INDEX CONCURRENTLY idx_orders_asset_status
+   ON orders(asset_id, status);
+   ```
 
 4. **Monitor with profiling:**
 
-```bash
-# Install profiling middleware
-pip install pyinstrument
+   ```bash
+   # Install profiling middleware
+   pip install pyinstrument
 
-# Profile slow endpoints
-python -m pyinstrument app/main.py
-```
+   # Profile slow endpoints
+   python -m pyinstrument app/main.py
+   ```
 
 ### Frontend Loading Slow
 
@@ -646,11 +655,15 @@ python -m pyinstrument app/main.py
 # Analyze bundle size
 npm run build
 npm run analyze  # If configured
+```
 
-# Code splitting - lazy load components
-import { lazy, Suspense } from 'react';
-const Trading = lazy(() => import('./components/Trading'));
+```javascript
+// Code splitting - lazy load components
+import { lazy, Suspense } from "react";
+const Trading = lazy(() => import("./components/Trading"));
+```
 
+```bash
 # Optimize images
 # Use WebP format, compress, use CDN
 
@@ -737,16 +750,16 @@ If issue persists:
 
 1. **Check logs:**
 
-```bash
-# Backend logs
-tail -f logs/app.log
+   ```bash
+   # Backend logs
+   tail -f logs/app.log
 
-# Frontend console
-# Open browser DevTools (F12) -> Console
+   # Frontend console
+   # Open browser DevTools (F12) -> Console
 
-# Smart contract events
-forge test -vvvv
-```
+   # Smart contract events
+   forge test -vvvv
+   ```
 
 2. **Search GitHub issues:**
    - [Fluxion Issues](https://github.com/quantsingularity/Fluxion/issues)
